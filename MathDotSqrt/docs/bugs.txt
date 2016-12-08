@@ -1,0 +1,10 @@
+RENDERING
+	--*Cube lighting does not work (duplicate faces)
+	--Backface rendering does not render proper RenderMode
+    --RenderMode applying to materials it shouldn't
+    --Uniforms arn't resetting between draw calls
+AUDIO
+
+PHYSICS
+
+GAME

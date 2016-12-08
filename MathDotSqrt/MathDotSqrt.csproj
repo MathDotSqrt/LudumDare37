@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AD20D28-3B3B-486E-8C07-673A31520591}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathDotSqrt</RootNamespace>
+    <AssemblyName>MathDotSqrt</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\C# Dev\NAudio-Release\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\C# Dev\1.1\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sqrt3D\AudioEngine\OpenALPlayer.cs" />
+    <Compile Include="Sqrt3D\GameComponent.cs" />
+    <Compile Include="Sqrt3D\GameState\GameState.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStateManager.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\MenuState.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\PlayState.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\BloomEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\ContrastEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\ExtractBrightnessEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\HorizontalBlurEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\NoEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\RadialBlurEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\VerticalBlurEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\FontGeometry.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry2d.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry3d.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\QuadGeometry2d.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\Character.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\Font.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\TextElementGenerator.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\Word.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\GuiElement.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\GUI\GuiField.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\GuiBasicMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\GuiFontMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\OpenGLRenderer.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\FBO.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\Effect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\InvertColorEffect.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Framebuffer\PostProcessing.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\BasicShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\GuiBasicShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\GuiFontShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPBloomShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPBrightnessShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPContrastShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPHorizontalBlurShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\LitShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\NormalShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPInvertColorShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPNoShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPRadialBlurShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\PPVerticalBlurShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\ShaderProgram.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\SkyboxShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\SpecularShader.cs" />
+    <Compile Include="Sqrt3D\Util\ArrayConverter.cs" />
+    <Compile Include="Sqrt3D\Util\IO\FilePaths.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\AudioLoader.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\FontLoader.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\OBJLoader.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\TextureLoader.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\VAOLoader.cs" />
+    <Compile Include="Sqrt3D\Util\Math\Color.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Output.cs" />
+    <Compile Include="Sqrt3D\Util\Math\RandomHelper.cs" />
+    <Compile Include="Sqrt3D\Util\Math\SexyMathHelper.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Cameras\PerspectiveCamera.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Lights\AmbientLight.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Lights\LightType.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Camera.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Lights\PointLight.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\Face.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\PlaneGeometry.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\VAOGeometry.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MaterialType.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\VAO.cs" />
+    <Compile Include="Sqrt3D\Util\Window.cs" />
+    <Compile Include="Sqrt3D\World\Object3D.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Light.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Mesh.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\Material.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshBasicMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshLitMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshNormalMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshSkyboxMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshSpecularMaterial.cs" />
+    <Compile Include="Sqrt3D\World\Objects\AudioSource.cs" />
+    <Compile Include="Sqrt3D\World\Scene.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="res\fonts\candara\candara.fnt" />
+    <None Include="res\fonts\harrington\harrington.fnt" />
+    <None Include="res\models\cube.obj" />
+    <None Include="res\models\dragon.obj" />
+    <None Include="res\models\drone.obj" />
+    <None Include="res\models\earth.obj" />
+    <None Include="res\models\level.obj" />
+    <None Include="res\models\monkey.obj" />
+    <None Include="res\models\moon.obj" />
+    <None Include="res\models\plane.obj" />
+    <None Include="res\models\ship.OBJ" />
+    <None Include="res\models\sphere.obj" />
+    <None Include="res\models\stall.obj" />
+    <None Include="res\models\sword.obj" />
+    <None Include="res\shaders\basicShader\basicFragmentShader.fs" />
+    <None Include="res\shaders\basicShader\basicVertexShader.vs" />
+    <None Include="res\shaders\bloomShader\bloomFragmentShader.fs" />
+    <None Include="res\shaders\bloomShader\bloomVertexShader.vs" />
+    <None Include="res\shaders\brightnessShader\brightnessFragmentShader.fs" />
+    <None Include="res\shaders\brightnessShader\brightnessVertexShader.vs" />
+    <None Include="res\shaders\contrastShader\contrastFragmentShader.fs" />
+    <None Include="res\shaders\contrastShader\contrastVertexShader.vs" />
+    <None Include="res\shaders\guiBasicShader\guiBasicFragmentShader.fs" />
+    <None Include="res\shaders\guiBasicShader\guiBasicVertexShader.vs" />
+    <None Include="res\shaders\guiFontShader\guiFontFragmentShader.fs" />
+    <None Include="res\shaders\guiFontShader\guiFontVertexShader.vs" />
+    <None Include="res\shaders\radialBlurShader\radialBlurFragmentShader.fs" />
+    <None Include="res\shaders\radialBlurShader\radialBlurVertexShader.vs" />
+    <None Include="res\shaders\verticalBlurShader\verticalBlurFragmentShader.fs" />
+    <None Include="res\shaders\verticalBlurShader\verticalBlurVertexShader.vs" />
+    <None Include="res\shaders\horizontalBlurShader\horizontalBlurFragmentShader.fs" />
+    <None Include="res\shaders\horizontalBlurShader\horizontalBlurVertexShader.vs" />
+    <None Include="res\shaders\invertColorShader\invertColorFragmentShader.fs" />
+    <None Include="res\shaders\invertColorShader\invertColorVertexShader.vs" />
+    <None Include="res\shaders\litShader\litFragmentShader.fs" />
+    <None Include="res\shaders\litShader\litVertexShader.vs" />
+    <None Include="res\shaders\normalShader\normalFragmentShader.fs" />
+    <None Include="res\shaders\normalShader\normalVertexShader.vs" />
+    <None Include="res\shaders\noShader\noFragmentShader.fs" />
+    <None Include="res\shaders\noShader\noVertexShader.vs" />
+    <None Include="res\shaders\skyboxShader\skyboxFragmentShader.fs" />
+    <None Include="res\shaders\skyboxShader\skyboxVertexShader.vs" />
+    <None Include="res\shaders\specularShader\specularFragmentShader.fs" />
+    <None Include="res\shaders\specularShader\specularVertexShader.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sqrt3D\PhysicsEngine\" />
+    <Folder Include="Sqrt3D\Util\Query\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\bugs.txt" />
+    <Content Include="docs\openal32.dll" />
+    <Content Include="docs\todo.txt" />
+    <Content Include="NAudio.dll" />
+    <Content Include="res\audio\auckland.wav" />
+    <Content Include="res\audio\bounce.wav" />
+    <Content Include="res\audio\cha.wav" />
+    <Content Include="res\audio\goodnight.wav" />
+    <Content Include="res\audio\ludumMix.wav" />
+    <Content Include="res\audio\ring.wav" />
+    <Content Include="res\audio\wind.wav" />
+    <Content Include="res\fonts\candara\candara.png" />
+    <Content Include="res\fonts\harrington\harrington.png" />
+    <Content Include="res\maps\cube_maps\clouds\neg_x.png" />
+    <Content Include="res\maps\cube_maps\clouds\neg_y.png" />
+    <Content Include="res\maps\cube_maps\clouds\neg_z.png" />
+    <Content Include="res\maps\cube_maps\clouds\pos_x.png" />
+    <Content Include="res\maps\cube_maps\clouds\pos_y.png" />
+    <Content Include="res\maps\cube_maps\clouds\pos_z.png" />
+    <Content Include="res\maps\cube_maps\lagoon\neg_x.png" />
+    <Content Include="res\maps\cube_maps\lagoon\neg_y.png" />
+    <Content Include="res\maps\cube_maps\lagoon\neg_z.png" />
+    <Content Include="res\maps\cube_maps\lagoon\pos_x.png" />
+    <Content Include="res\maps\cube_maps\lagoon\pos_y.png" />
+    <Content Include="res\maps\cube_maps\lagoon\pos_z.png" />
+    <Content Include="res\maps\cube_maps\test\neg_x.png" />
+    <Content Include="res\maps\cube_maps\test\pos_x.png" />
+    <Content Include="res\maps\cube_maps\test\neg_y.png" />
+    <Content Include="res\maps\cube_maps\test\pos_y.png" />
+    <Content Include="res\maps\cube_maps\test\neg_z.png" />
+    <Content Include="res\maps\cube_maps\test\pos_z.png" />
+    <Content Include="res\maps\normal_maps\earth_normal_map.jpg" />
+    <Content Include="res\maps\specular_maps\earth_specular_map.jpg" />
+    <Content Include="res\maps\texture_maps\earth_clouds.jpg" />
+    <Content Include="res\maps\texture_maps\earth_day.jpg" />
+    <Content Include="res\maps\texture_maps\earth_night.jpg" />
+    <Content Include="res\maps\texture_maps\metal.jpg" />
+    <Content Include="res\maps\texture_maps\moon.jpg" />
+    <Content Include="res\maps\texture_maps\stall.png" />
+    <Content Include="res\maps\texture_maps\sun.jpg" />
+    <Content Include="res\maps\texture_maps\sun2.jpg" />
+    <Content Include="res\maps\texture_maps\test_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
