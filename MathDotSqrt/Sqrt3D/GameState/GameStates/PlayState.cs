@@ -36,7 +36,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		public override void Init() {
 			scene = new Scene();
 			PerspectiveCamera camera = new PerspectiveCamera(70, Window.ASPECT_RATIO, .01f, 10000);
-			camera.Position.Z = 5;
+			camera.Position.Z = 10;
 			scene.Add(camera);
 
 			Geometry cubeGeometry = OBJLoader.LoadOBJ("cube.obj");
