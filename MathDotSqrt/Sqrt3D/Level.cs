@@ -21,6 +21,7 @@ namespace MathDotSqrt.Sqrt3D {
 		private Material eyeMaterial;
 		private Player player;
 
+		private Node node;
 
 		public Level(Scene scene) {
 			this.scene = scene;
@@ -33,6 +34,12 @@ namespace MathDotSqrt.Sqrt3D {
 			BuildBox(0, 0, 0, null, Orientation.NegZ);
 			BuildWallNegZ(0, 0, 0, eyeMaterial);
 
+			node = new Node(0, 0, 0, 0, 0, Orientation.NegZ);
+
+
+
+			/////////////////////////////////////////////////////////////
+
 			player = new Player(5, 5, 5);
 			Light point = new PointLight(Color.White, 1);
 			player.camera.Add(point);
@@ -42,6 +49,7 @@ namespace MathDotSqrt.Sqrt3D {
 
 		public void Update() {
 			player.Update();
+			Output.Good(node.IsLooking(player));
 		}
 
 
@@ -108,15 +116,5 @@ namespace MathDotSqrt.Sqrt3D {
 				BuildWallPosZ(x, y, z, m);
 		}
 	
-	}
-
-	public enum Orientation {
-		None = -1,
-		PosX = 0,
-		PosY = 1,
-		PosZ = 2,
-		NegX = 3,
-		NegY = 4,
-		NegZ = 5,
 	}
 }
