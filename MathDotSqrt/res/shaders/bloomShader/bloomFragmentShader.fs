@@ -10,5 +10,5 @@ void main(void){
 	vec4 sceneColor = texture2D(textureSampler, passTextureUV);
 	vec4 blurColor = texture2D(blurTextureSampler, passTextureUV);
 
-	out_Color = sceneColor + blurColor * 1;
+	out_Color = sceneColor + blurColor * .5;
 }

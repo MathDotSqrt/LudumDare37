@@ -138,7 +138,7 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine {
 			if(DoPostProcessing) {
 				multiSampledFBO.UnbindCurrentFramebuffer();
 				multiSampledFBO.ResolveToFBO(resolvedFBO);
-				PostProcessing.RenderPostProcessingPipeLine(resolvedFBO);
+				PostProcessing.RenderPostProcessingPipeLine(resolvedFBO, scene);
 			}
 		}
 

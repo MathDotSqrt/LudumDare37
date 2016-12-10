@@ -37,5 +37,18 @@ namespace MathDotSqrt.Sqrt3D.World.Objects {
 		}
 		public abstract void UpdateProjectionMatrix();
 
+		public void MoveForward(float vel) {
+			float rad = SexyMathHelper.ToRad(this.Rotation.Y);
+			this.Position.X += vel * (float)Math.Sin(rad);
+			this.Position.Z += vel * -(float)Math.Cos(rad);
+		}
+		public void MoveLeft(float vel) {
+			float rad = SexyMathHelper.ToRad(this.Rotation.Y) + (float)Math.PI / 2;
+			this.Position.X += vel * (float)Math.Sin(rad);
+			this.Position.Z += vel * -(float)Math.Cos(rad);
+		}
+		
+
+
 	}
 }

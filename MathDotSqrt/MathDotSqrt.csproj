@@ -138,6 +138,7 @@
     <Compile Include="Sqrt3D\Util\Window.cs" />
     <Compile Include="Sqrt3D\World\Object3D.cs" />
     <Compile Include="Sqrt3D\World\Objects\Light.cs" />
+    <Compile Include="Sqrt3D\World\Objects\Lights\RadialLightPoint.cs" />
     <Compile Include="Sqrt3D\World\Objects\Mesh.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Materials\Material.cs" />

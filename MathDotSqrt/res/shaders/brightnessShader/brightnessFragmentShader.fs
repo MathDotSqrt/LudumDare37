@@ -10,7 +10,7 @@ void main(void){
 	float brightness = (color.r * .2126) + (color.g * .7152) + (color.b * .0722) / 2;
 	
 	//out_Color = color * brightness;
-	if(brightness > .7){
+	if(brightness > .9){
 		out_Color = color * brightness;
 	}
 	else{

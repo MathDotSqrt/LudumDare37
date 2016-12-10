@@ -121,6 +121,9 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine.Shader {
 		protected void LoadFloatArray(int location, float[] values) {
 			GL.Uniform1(location, values.Length, values);
 		}
+		protected void LoadVector2(int location, Vector2 value) {
+			GL.Uniform2(location, value);
+		}
 		protected void LoadVector3(int location, Vector3 value) {
 			GL.Uniform3(location, value);
 		}
