@@ -86,19 +86,19 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 				Environment.Exit(0);
 
 			int state = 0;
-			String[] stateElement = new String[2];
+			String[] stateElement = {"play", "exit"};
 
 			if (Keyboard.GetState().IsKeyDown(Key.Down)) {
-				if (stateElement[state] == "play") {
-					GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement("play").Material;
-					material.Color = Color.CornflowerBlue;
-					state = 0;
-				}
-				else {
-					GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement("exit").Material;
-					material.Color = Color.BlackCock;
-					state = 1;
-				}
+				
+				Output.Good(state);
+				GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
+				material.Color = Color.CornflowerBlue;
+			}
+			if (Keyboard.GetState().IsKeyDown(Key.Up)){
+				
+				Output.Good(state);
+				GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
+				material.Color = Color.CornflowerBlue;
 			}
 		}
 
