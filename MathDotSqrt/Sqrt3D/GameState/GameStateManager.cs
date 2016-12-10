@@ -15,6 +15,7 @@ namespace MathDotSqrt.Sqrt3D.GameState {
 
 		public const int MENU_STATE = 0;    //Index value of MenuState (sub class of GameState)
 		public const int PLAY_STATE = 1;    //Index value of PlayState (sub class of GameState)
+		public const int TEST_STATE = 2;
 
 		private List<GameState> gameStates; //All GameStates are stored in a List<GameState>
 
@@ -23,6 +24,7 @@ namespace MathDotSqrt.Sqrt3D.GameState {
 			gameStates = new List<GameState>();     //initalizes the GameState List
 			gameStates.Add(new MenuState(this));    //Adds the MenuState to the GameState List
 			gameStates.Add(new PlayState(this));    //Adds the MenuState to the GameState List
+			gameStates.Add(new TestState(this));    //Adds the TestState to the GameState List
 
 			EnterGameState(state);                  //Enters the GameState specified from the constructor
 		}

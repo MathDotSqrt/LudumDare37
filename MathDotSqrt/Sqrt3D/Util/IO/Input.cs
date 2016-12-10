@@ -1,0 +1,61 @@
+﻿using MathDotSqrt.Sqrt3D.GameState;
+using MathDotSqrt.Sqrt3D.RenderEngine;
+using MathDotSqrt.Sqrt3D.Util;
+using OpenTK;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using MathDotSqrt.Sqrt3D.Util.IO.Loader;
+using MathDotSqrt.Sqrt3D.Util.Math;
+using MathDotSqrt.Sqrt3D.AudioEngine;
+using OpenTK.Input;
+using MathDotSqrt.Sqrt3D.World.Objects;
+
+namespace MathDotSqrt.Sqrt3D.Util.IO{
+	public static class Input {
+
+		public static KeyboardState lastFrameState {
+			get;
+			private set;
+		}
+
+		public static bool FullScreenToggle = false;
+
+		public static Vector2 MouseVel;
+		public static float SensitivityX = 80;
+		public static float SensitivityY = 70;
+
+		public static void UpdateInput() {
+			KeyboardState k = Keyboard.GetState();
+			FullScreenToggle = false;
+			if(k.IsKeyDown(Key.F11) && lastFrameState.IsKeyUp(Key.F11))
+				FullScreenToggle = true;
+
+			//Output.Good(FullScreenToggle);
+
+			lastFrameState = k;
+		}
+		public static void UpdateCamera(Camera camera) {
+			KeyboardState k = Keyboard.GetState();
+			if(k.IsKeyDown(Key.W) | k.IsKeyDown(Key.Up))
+				camera.MoveForward(.1f);
+			if(k.IsKeyDown(Key.S) | k.IsKeyDown(Key.Down))
+				camera.MoveForward(-.1f);
+			if(k.IsKeyDown(Key.D) | k.IsKeyDown(Key.Right))
+				camera.MoveLeft(.1f);
+			if(k.IsKeyDown(Key.A) | k.IsKeyDown(Key.Left))
+				camera.MoveLeft(-.1f);
+			if(k.IsKeyDown(Key.Escape))
+				Environment.Exit(0);
+
+			camera.RotateY(MouseVel.X * SensitivityX);
+			camera.RotateX(MouseVel.Y * SensitivityY);
+		}
+
+
+	}
+
+}

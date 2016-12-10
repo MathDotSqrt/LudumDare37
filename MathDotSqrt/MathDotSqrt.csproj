@@ -74,6 +74,7 @@
     <Compile Include="Sqrt3D\GameState\GameStateManager.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\MenuState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\PlayState.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\TestState.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\BloomEffect.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\ContrastEffect.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\ExtractBrightnessEffect.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Sqrt3D\RenderEngine\Shader\SkyboxShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\SpecularShader.cs" />
     <Compile Include="Sqrt3D\Util\ArrayConverter.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Input.cs" />
     <Compile Include="Sqrt3D\Util\IO\FilePaths.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\AudioLoader.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\FontLoader.cs" />
@@ -162,6 +164,7 @@
     <None Include="res\models\monkey" />
     <None Include="res\models\moon" />
     <None Include="res\models\plane" />
+    <None Include="res\models\room" />
     <None Include="res\models\ship" />
     <None Include="res\models\sphere" />
     <None Include="res\models\stall" />
@@ -198,6 +201,7 @@
     <None Include="res\shaders\specularShader\specularVertexShader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Sqrt3D\NewFolder1\" />
     <Folder Include="Sqrt3D\PhysicsEngine\" />
     <Folder Include="Sqrt3D\Util\Query\" />
   </ItemGroup>

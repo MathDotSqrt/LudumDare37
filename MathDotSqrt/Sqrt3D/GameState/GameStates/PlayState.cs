@@ -26,8 +26,8 @@ using MathDotSqrt.Sqrt3D.AudioEngine;
 namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 	public class PlayState : GameState {
 
-		private Scene scene;
-		private GuiField gui;
+		Scene scene;
+		GuiField gui;
 
 		public PlayState(GameStateManager gsm) : base(gsm) {
 			
@@ -36,69 +36,41 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		public override void Init() {
 			scene = new Scene();
 
-			Camera camera = new PerspectiveCamera(70, Window.ASPECT_RATIO, .01f, 10000);
-			camera.Position.Z = 5;
+			Camera camera = new PerspectiveCamera(70, Window.ASPECT_RATIO, .01f, 1000);
+			camera.Position.Z = 0;
 			scene.Add(camera);
 
-			Geometry cubeGeometry = OBJLoader.LoadOBJ("cube");
-			Material skyMaterial = new MeshSkyboxMaterial() {
-				SkyboxCubeMap = TextureLoader.LoadCubeMap("clouds")
+			Geometry planeGeometry = OBJLoader.LoadOBJ("plane");
+			Material material = new MeshSpecularMaterial() {
+				RenderFace = RenderFace.FrontAndBack
 			};
-			Mesh skybox = new Mesh(cubeGeometry, skyMaterial);
-			skybox.SetScale(9000);
-			scene.Add(skybox);
-
-			Geometry geometry = OBJLoader.LoadOBJ("level");
-			Material material = new MeshLitMaterial() {
-				CubeMapReflection = TextureLoader.LoadCubeMap("clouds")
+			Mesh plane = new Mesh(planeGeometry, material) {
+				Name = "plane"
 			};
-			Mesh mesh = new Mesh(geometry, material);
-			//mesh.RotateY(45);
-			scene.Add(mesh);
+			scene.Add(plane);
 
-			Light point = new PointLight(Color.White, .5f);
+			Light point = new PointLight(Color.Silver, .5f);
 			camera.Add(point);
 			scene.Add(point);
-
-			Light rad = new RadialLightPoint(Color.White, .5f);
-			rad.SetPosition(-1377, 1410, 4468);
-			scene.Add(rad);
 
 			gui = new GuiField();
 		}
 
 		public override void Update(float delta) {
-			KeyboardState k = Keyboard.GetState();
-			if(k.IsKeyDown(Key.Up))
-				scene.Camera.MoveForward(5f);
-			if(k.IsKeyDown(Key.Down))
-				scene.Camera.MoveForward(-5f);
-			if(k.IsKeyDown(Key.Left))
-				scene.Camera.Rotation.Y -= 4;
-			if(k.IsKeyDown(Key.Right))
-				scene.Camera.Rotation.Y += 4;
-			if(k.IsKeyDown(Key.D))
-				scene.Camera.MoveLeft(5);
-			if(k.IsKeyDown(Key.A))
-				scene.Camera.MoveLeft(-5);
-
-			if(k.IsKeyDown(Key.Space))
-				scene.Camera.Position.Y += 5;
-			if(k.IsKeyDown(Key.ShiftLeft))
-				scene.Camera.Position.Y -= 5;
-
-			if(k.IsKeyDown(Key.P))
-				Output.Good(scene.Camera.Position);
+			Input.UpdateCamera(scene.Camera);
+			scene.GetMesh("plane").Rotation.Z += 1;
 		}
 		public override void Render(OpenGLRenderer renderer) {
 			renderer.RenderScene(scene);
-			renderer.RenderGui(gui);
 		}
 		public override void PlayAudio(OpenALPlayer player) {
-			player.PlaySceneAudio(scene);
+
 		}
 		public override void UpdateResize() {
 			gui.UpdateScreenSize();
+			PerspectiveCamera camera = (PerspectiveCamera)scene.Camera;
+			camera.AspectRatio = Window.ASPECT_RATIO;
+			camera.UpdateProjectionMatrix();
 		}
 
 		public override void Dispose() {

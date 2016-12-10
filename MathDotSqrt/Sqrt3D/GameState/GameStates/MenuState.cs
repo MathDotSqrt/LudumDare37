@@ -19,7 +19,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		}
 
 		public override void Update(float delta) {
-			gsm.EnterGameState(GameStateManager.PLAY_STATE);
+			
 
 		}
 
