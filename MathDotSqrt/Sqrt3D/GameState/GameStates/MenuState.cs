@@ -16,6 +16,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		}
 
 		public override void Init() {
+
 		}
 
 		public override void Update(float delta) {

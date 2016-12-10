@@ -49,7 +49,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			};
 			scene.Add(plane);
 
-			Light point = new PointLight(Color.Silver, .5f);
+			Light point = new PointLight(Color.Red, .5f);
 			camera.Add(point);
 			scene.Add(point);
 
