@@ -77,6 +77,7 @@
     <Compile Include="Sqrt3D\GameState\GameStates\TestState.cs" />
     <Compile Include="Sqrt3D\Level.cs" />
     <Compile Include="Sqrt3D\Node.cs" />
+    <Compile Include="Sqrt3D\Orientation.cs" />
     <Compile Include="Sqrt3D\Player.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\BloomEffect.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\ContrastEffect.cs" />

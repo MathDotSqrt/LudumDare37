@@ -28,11 +28,29 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 		public static float SensitivityX = 80;
 		public static float SensitivityY = 70;
 
+		public static bool IsUpTyped = false;
+		public static bool IsDownTyped = false;
+		public static bool IsLeftTyped = false;
+		public static bool IsRightTyped = false;
+
 		public static void UpdateInput() {
 			KeyboardState k = Keyboard.GetState();
 			FullScreenToggle = false;
 			if(k.IsKeyDown(Key.F11) && lastFrameState.IsKeyUp(Key.F11))
 				FullScreenToggle = true;
+
+			IsUpTyped = false;
+			IsDownTyped = false;
+			IsLeftTyped = false;
+			IsRightTyped = false;
+			if(k.IsKeyDown(Key.Up) && lastFrameState.IsKeyDown(Key.Up))
+				IsUpTyped = true;
+			if(k.IsKeyDown(Key.Down) && lastFrameState.IsKeyDown(Key.Down))
+				IsDownTyped = true;
+			if(k.IsKeyDown(Key.Left) && lastFrameState.IsKeyDown(Key.Left))
+				IsLeftTyped = true;
+			if(k.IsKeyDown(Key.Right) && lastFrameState.IsKeyDown(Key.Right))
+				IsRightTyped = true;
 
 			//Output.Good(FullScreenToggle);
 
