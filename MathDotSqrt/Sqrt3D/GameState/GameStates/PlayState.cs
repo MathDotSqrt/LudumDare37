@@ -59,6 +59,10 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		public override void Update(float delta) {
 			Input.UpdateCamera(scene.Camera);
 			scene.GetMesh("plane").Rotation.Z += 1;
+
+			if (Keyboard.GetState().IsKeyDown(Key.M)) {
+				gsm.EnterGameState(GameStateManager.MENU_STATE);
+			}
 		}
 		public override void Render(OpenGLRenderer renderer) {
 			renderer.RenderScene(scene);
