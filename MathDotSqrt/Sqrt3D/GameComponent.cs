@@ -75,7 +75,7 @@ namespace MathDotSqrt.Sqrt3D {
 				Input.MouseVel.X = Mouse.X / (float)Window.WIDTH - .5f;
 				Input.MouseVel.Y = Mouse.Y / (float)Window.HEIGHT - .5f;
 
-				Output.Good(Input.MouseVel);
+				//Output.Good(Input.MouseVel);
 
 				Point center = new Point(Width / 2, Height / 2);
 				Point mousePos = PointToScreen(center);

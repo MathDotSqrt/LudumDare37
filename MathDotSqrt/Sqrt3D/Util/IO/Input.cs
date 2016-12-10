@@ -48,6 +48,10 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 				camera.MoveLeft(.1f);
 			if(k.IsKeyDown(Key.A) | k.IsKeyDown(Key.Left))
 				camera.MoveLeft(-.1f);
+			if(k.IsKeyDown(Key.Space))
+				camera.Position.Y += .1f;
+			if(k.IsKeyDown(Key.ShiftLeft))
+				camera.Position.Y -= .1f;
 			if(k.IsKeyDown(Key.Escape))
 				Environment.Exit(0);
 

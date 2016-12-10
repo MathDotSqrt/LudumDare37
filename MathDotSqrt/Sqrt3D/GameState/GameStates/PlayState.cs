@@ -28,6 +28,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 
 		Scene scene;
 		GuiField gui;
+		Level level;
 
 		public PlayState(GameStateManager gsm) : base(gsm) {
 			
@@ -36,29 +37,22 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		public override void Init() {
 			scene = new Scene();
 
-			Camera camera = new PerspectiveCamera(70, Window.ASPECT_RATIO, .01f, 1000);
-			camera.Position.Z = 0;
-			scene.Add(camera);
+			level = new Level(scene);
 
-			Geometry planeGeometry = OBJLoader.LoadOBJ("plane");
-			Material material = new MeshSpecularMaterial() {
-				RenderFace = RenderFace.FrontAndBack
+			Geometry cubeGeometry = OBJLoader.LoadOBJ("cube");
+			Material material = new MeshBasicMaterial() {
+				Color = Color.Yellow
 			};
-			Mesh plane = new Mesh(planeGeometry, material) {
-				Name = "plane"
-			};
-			scene.Add(plane);
-
-			Light point = new PointLight(Color.Red, .5f);
-			camera.Add(point);
-			scene.Add(point);
+			Mesh mesh = new Mesh(cubeGeometry, material);
+			scene.Add(mesh);
 
 			gui = new GuiField();
 		}
 
 		public override void Update(float delta) {
 			Input.UpdateCamera(scene.Camera);
-			scene.GetMesh("plane").Rotation.Z += 1;
+
+			level.Update();
 
 			if (Keyboard.GetState().IsKeyDown(Key.M)) {
 				gsm.EnterGameState(GameStateManager.MENU_STATE);
