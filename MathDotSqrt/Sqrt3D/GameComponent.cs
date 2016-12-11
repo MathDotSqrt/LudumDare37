@@ -49,7 +49,7 @@ namespace MathDotSqrt.Sqrt3D {
 			renderer = new OpenGLRenderer() {                           //This is where we instantiate and configure the renderer
 				ClearColor = Util.Math.Color.BlackCock							
 			};
-			player = new OpenALPlayer();
+			//player = new OpenALPlayer();
 			gsm = new GameStateManager(GameStateManager.PLAY_STATE);    //Launches the game in the [PLAY_STATE]
 			OnFocusedChanged(e);
 		}

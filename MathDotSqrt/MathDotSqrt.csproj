@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="mysql.data">
+      <HintPath>F:\Downloads\mysql-connector-net-6.1.6-noinstall\mysql.data.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\C# Dev\NAudio-Release\NAudio.dll</HintPath>
@@ -73,6 +76,7 @@
     <Compile Include="Sqrt3D\GameState\GameState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStateManager.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\MenuState.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\OptionState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\PlayState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\TestState.cs" />
     <Compile Include="Sqrt3D\Level.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Sqrt3D\Util\IO\Output.cs" />
     <Compile Include="Sqrt3D\Util\Math\RandomHelper.cs" />
     <Compile Include="Sqrt3D\Util\Math\SexyMathHelper.cs" />
+    <Compile Include="Sqrt3D\Util\Query\MySQL.cs" />
     <Compile Include="Sqrt3D\World\Objects\Cameras\PerspectiveCamera.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\AmbientLight.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\LightType.cs" />
@@ -207,7 +212,6 @@
   <ItemGroup>
     <Folder Include="Sqrt3D\NewFolder1\" />
     <Folder Include="Sqrt3D\PhysicsEngine\" />
-    <Folder Include="Sqrt3D\Util\Query\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\bugs.txt" />
@@ -264,6 +268,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

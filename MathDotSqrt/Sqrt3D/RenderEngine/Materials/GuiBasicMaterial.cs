@@ -28,5 +28,10 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine.Materials {
 		public GuiBasicMaterial() : base(shader) {
 
 		}
+
+		public static implicit operator GuiBasicMaterial(Color v)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

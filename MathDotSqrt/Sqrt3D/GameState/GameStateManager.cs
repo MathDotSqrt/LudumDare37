@@ -14,8 +14,9 @@ namespace MathDotSqrt.Sqrt3D.GameState {
 		private int currentState = -1;      //The currently selected GameState to be Updated/Render
 
 		public const int MENU_STATE = 0;    //Index value of MenuState (sub class of GameState)
-		public const int PLAY_STATE = 1;    //Index value of PlayState (sub class of GameState)
-		public const int TEST_STATE = 2;
+		public const int OPTION_STATE = 1; //Index value of OptionState (sub class of GameState)
+		public const int PLAY_STATE = 2;    //Index value of PlayState (sub class of GameState)
+		public const int TEST_STATE = 3;
 
 		private List<GameState> gameStates; //All GameStates are stored in a List<GameState>
 
@@ -23,6 +24,7 @@ namespace MathDotSqrt.Sqrt3D.GameState {
 		public GameStateManager(int state = 0) {
 			gameStates = new List<GameState>();     //initalizes the GameState List
 			gameStates.Add(new MenuState(this));    //Adds the MenuState to the GameState List
+			gameStates.Add(new OptionState(this));    //Adds the OptionState to the GameState List
 			gameStates.Add(new PlayState(this));    //Adds the MenuState to the GameState List
 			gameStates.Add(new TestState(this));    //Adds the TestState to the GameState List
 

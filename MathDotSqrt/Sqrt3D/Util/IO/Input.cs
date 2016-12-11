@@ -43,13 +43,13 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 			IsDownTyped = false;
 			IsLeftTyped = false;
 			IsRightTyped = false;
-			if(k.IsKeyDown(Key.Up) && lastFrameState.IsKeyDown(Key.Up))
+			if(k.IsKeyDown(Key.Up) && lastFrameState.IsKeyUp(Key.Up))
 				IsUpTyped = true;
-			if(k.IsKeyDown(Key.Down) && lastFrameState.IsKeyDown(Key.Down))
+			if(k.IsKeyDown(Key.Down) && lastFrameState.IsKeyUp(Key.Down))
 				IsDownTyped = true;
-			if(k.IsKeyDown(Key.Left) && lastFrameState.IsKeyDown(Key.Left))
+			if(k.IsKeyDown(Key.Left) && lastFrameState.IsKeyUp(Key.Left))
 				IsLeftTyped = true;
-			if(k.IsKeyDown(Key.Right) && lastFrameState.IsKeyDown(Key.Right))
+			if(k.IsKeyDown(Key.Right) && lastFrameState.IsKeyUp(Key.Right))
 				IsRightTyped = true;
 
 			//Output.Good(FullScreenToggle);

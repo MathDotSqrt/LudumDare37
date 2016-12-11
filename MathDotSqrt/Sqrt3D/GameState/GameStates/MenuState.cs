@@ -38,75 +38,102 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			Font font = FontLoader.LoadFont("candara");
 
 			Geometry2d titleGeometry = new FontGeometry(font, "Title", 3, 1000, 10, 20);
-			Geometry2d playGeometry = new FontGeometry(font, "Play", 2, 1000, 10, 20);
-			Geometry2d exitGeometry = new FontGeometry(font, "Exit", 2, 1000, 10, 20);
+			Geometry2d playGeometry = new FontGeometry(font, "Play", 1, 1000, 10, 20);
+			Geometry2d optionsGeometry = new FontGeometry(font, "Options", 1, 1000, 10, 20);
+			Geometry2d exitGeometry = new FontGeometry(font, "Exit", 1, 1000, 10, 20);
 
 			Geometry2d quad = new QuadGeometry2d();
 			Material playBoxMaterial = new GuiBasicMaterial() {
 				Color = Color.Grey
 			};
+			Material optionsBoxMaterial = new GuiBasicMaterial() {
+				Color = Color.Grey
+			};
 			Material exitBoxMaterial = new GuiBasicMaterial() {
-				Color = Color.Purple
+				Color = Color.Grey
 			};
 
 			Material fontMaterial = new GuiFontMaterial(font.Texture);
-
-			
 
 			GuiElement playBox = new GuiElement(quad, playBoxMaterial) {
 				Name = "play"
 			};
 			playBox.PixelWidth = 350;
 			playBox.PixelHeight = 100;
-			playBox.PixelY = Window.HEIGHT / 2 + 50 + 20;
+			playBox.PixelY = Window.HEIGHT / 2 - 50 - 80;
 			gui.Add(playBox);
+
+			GuiElement optionsBox = new GuiElement(quad, optionsBoxMaterial) {
+				Name = "options"
+			};
+			optionsBox.PixelWidth = 350;
+			optionsBox.PixelHeight = 100;
+			optionsBox.PixelY = Window.HEIGHT / 2;
+			gui.Add(playBox);
+
 			GuiElement exitBox = new GuiElement(quad, exitBoxMaterial) {
 				Name = "exit"
 			};
 			exitBox.PixelWidth = 350;
 			exitBox.PixelHeight = 100;
-			exitBox.PixelY = Window.HEIGHT / 2 - 50 - 20;
-
+			exitBox.PixelY = Window.HEIGHT / 2 + 50 + 80;
 			gui.Add(exitBox);
 
 			GuiElement title = new GuiElement(titleGeometry, fontMaterial);
 			gui.Add(title);
+
 			GuiElement play = new GuiElement(playBox, playGeometry, fontMaterial);
 			gui.Add(play);
+
+			GuiElement options = new GuiElement(optionsBox, optionsGeometry, fontMaterial);
+			gui.Add(optionsBox);
+
 			GuiElement exit = new GuiElement(exitBox, exitGeometry, fontMaterial);
 			gui.Add(exit);
 
 			title.PixelMarginTop = 100;
-			//play.PixelMarginTop = 300;
-			//exit.PixelMarginTop = 500;
 		}
+		private int state = 0;
 
 		public override void Update(float delta) {
-			if (Keyboard.GetState().IsKeyDown(Key.Escape))
-				Environment.Exit(0);
-
-			int state = 0;
-			String[] stateElement = {"play", "exit"};
-
-			if (Keyboard.GetState().IsKeyDown(Key.Down)) {
-				
-				Output.Good(state);
-				GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
-				material.Color = Color.CornflowerBlue;
+			String[] stateElement = { "play", "options", "exit" };
+			if (Input.IsDownTyped || Input.IsUpTyped) {
+				GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
+				button.Color = Color.Grey;
 			}
-			if (Keyboard.GetState().IsKeyDown(Key.Up)){
-				
-				Output.Good(state);
-				GuiBasicMaterial material = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
-				material.Color = Color.CornflowerBlue;
+
+			if (Input.IsUpTyped) {
+				if (state != 0)
+					state--;
 			}
+
+			if (Input.IsDownTyped) {
+				if (state != stateElement.Length - 1)
+					state++;
+			}
+
+			if (Input.IsDownTyped || Input.IsUpTyped) {
+				GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
+				button.Color = Color.Red;
+			}
+
+			if (Keyboard.GetState().IsKeyDown(Key.Enter))
+				switch (stateElement[state]) {
+					case "play":
+					gsm.EnterGameState(GameStateManager.PLAY_STATE);
+					break;
+					case "options":
+					gsm.EnterGameState(GameStateManager.OPTION_STATE);
+					break;
+					default:
+					Environment.Exit(0);
+					break;
+				}
 		}
 
 		public override void Render(OpenGLRenderer renderer) {
 			renderer.RenderScene(scene);
 			renderer.RenderGui(gui);
-
-
 		}
 
 		public override void PlayAudio(OpenALPlayer player) {
