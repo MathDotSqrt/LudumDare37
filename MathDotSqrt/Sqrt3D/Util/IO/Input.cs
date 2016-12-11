@@ -56,25 +56,25 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 
 			lastFrameState = k;
 		}
-		public static void UpdateCamera(Camera camera) {
+		public static void UpdatePlayer(Player player) {
 			KeyboardState k = Keyboard.GetState();
 			if(k.IsKeyDown(Key.W) | k.IsKeyDown(Key.Up))
-				camera.MoveForward(.1f);
+				player.MoveForward(.1f);
 			if(k.IsKeyDown(Key.S) | k.IsKeyDown(Key.Down))
-				camera.MoveForward(-.1f);
+				player.MoveForward(-.1f);
 			if(k.IsKeyDown(Key.D) | k.IsKeyDown(Key.Right))
-				camera.MoveLeft(.1f);
+				player.MoveLeft(.1f);
 			if(k.IsKeyDown(Key.A) | k.IsKeyDown(Key.Left))
-				camera.MoveLeft(-.1f);
+				player.MoveLeft(-.1f);
 			if(k.IsKeyDown(Key.Space))
-				camera.Position.Y += .1f;
+				player.MoveUp(.1f);
 			if(k.IsKeyDown(Key.ShiftLeft))
-				camera.Position.Y -= .1f;
+				player.MoveUp(-.1f);
 			if(k.IsKeyDown(Key.Escape))
 				Environment.Exit(0);
 
-			camera.RotateY(MouseVel.X * SensitivityX);
-			camera.RotateX(MouseVel.Y * SensitivityY);
+			player.camera.RotateY(MouseVel.X * SensitivityX);
+			player.camera.RotateX(MouseVel.Y * SensitivityY);
 		}
 
 

@@ -90,6 +90,7 @@
     <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry2d.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Geometries\Geometry3d.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Geometries\QuadGeometry2d.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Geometries\TangentGeometry.cs" />
     <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\Character.cs" />
     <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\Font.cs" />
     <Compile Include="Sqrt3D\RenderEngine\GUI\Fonts\TextElementGenerator.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Sqrt3D\RenderEngine\GUI\GuiField.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Materials\GuiBasicMaterial.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Materials\GuiFontMaterial.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Materials\MeshBumpMaterial.cs" />
     <Compile Include="Sqrt3D\RenderEngine\OpenGLRenderer.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\FBO.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Framebuffer\Effect.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Sqrt3D\RenderEngine\Shader\BasicShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\GuiBasicShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\GuiFontShader.cs" />
+    <Compile Include="Sqrt3D\RenderEngine\Shader\BumpShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\PPBloomShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\PPBrightnessShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\PPContrastShader.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Sqrt3D\Util\IO\FilePaths.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\AudioLoader.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\FontLoader.cs" />
+    <Compile Include="Sqrt3D\Util\IO\Loader\OBJBumpLoader.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\OBJLoader.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\TextureLoader.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\VAOLoader.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Sqrt3D\Util\IO\Output.cs" />
     <Compile Include="Sqrt3D\Util\Math\RandomHelper.cs" />
     <Compile Include="Sqrt3D\Util\Math\SexyMathHelper.cs" />
+    <Compile Include="Sqrt3D\Util\Math\TangentPoint.cs" />
     <Compile Include="Sqrt3D\World\Objects\Cameras\PerspectiveCamera.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\AmbientLight.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\LightType.cs" />
@@ -160,6 +165,7 @@
     <None Include="App.config" />
     <None Include="res\fonts\candara\candara.fnt" />
     <None Include="res\fonts\harrington\harrington.fnt" />
+    <None Include="res\models\barrel" />
     <None Include="res\models\cube" />
     <None Include="res\models\dragon" />
     <None Include="res\models\drone" />
@@ -179,6 +185,8 @@
     <None Include="res\shaders\bloomShader\bloomVertexShader.vs" />
     <None Include="res\shaders\brightnessShader\brightnessFragmentShader.fs" />
     <None Include="res\shaders\brightnessShader\brightnessVertexShader.vs" />
+    <None Include="res\shaders\bumpShader\bumpFragmentShader.fs" />
+    <None Include="res\shaders\bumpShader\bumpVertexShader.vs" />
     <None Include="res\shaders\contrastShader\contrastFragmentShader.fs" />
     <None Include="res\shaders\contrastShader\contrastVertexShader.vs" />
     <None Include="res\shaders\guiBasicShader\guiBasicFragmentShader.fs" />
@@ -242,16 +250,26 @@
     <Content Include="res\maps\cube_maps\test\neg_z.png" />
     <Content Include="res\maps\cube_maps\test\pos_z.png" />
     <Content Include="res\maps\normal_maps\earth_normal_map.jpg" />
+    <Content Include="res\maps\normal_maps\rock_normal.png" />
     <Content Include="res\maps\specular_maps\earth_specular_map.jpg" />
+    <Content Include="res\maps\texture_maps\barrel.png" />
+    <Content Include="res\maps\texture_maps\barrel_normal.png" />
     <Content Include="res\maps\texture_maps\earth_clouds.jpg" />
     <Content Include="res\maps\texture_maps\earth_day.jpg" />
     <Content Include="res\maps\texture_maps\earth_night.jpg" />
+    <Content Include="res\maps\texture_maps\floor1.png" />
+    <Content Include="res\maps\texture_maps\floor_normal.png" />
     <Content Include="res\maps\texture_maps\metal.jpg" />
     <Content Include="res\maps\texture_maps\moon.jpg" />
+    <Content Include="res\maps\texture_maps\rock.png" />
+    <Content Include="res\maps\texture_maps\rock_normal.png" />
     <Content Include="res\maps\texture_maps\stall.png" />
     <Content Include="res\maps\texture_maps\sun.jpg" />
     <Content Include="res\maps\texture_maps\sun2.jpg" />
     <Content Include="res\maps\texture_maps\test_image.png" />
+    <Content Include="res\maps\texture_maps\tim.jpg" />
+    <Content Include="res\maps\texture_maps\wall1.png" />
+    <Content Include="res\maps\texture_maps\wall1_normal.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

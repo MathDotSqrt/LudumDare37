@@ -64,6 +64,19 @@ namespace MathDotSqrt.Sqrt3D.Util.IO.Loader {
 			UnbindVAO();
 			return new VAO(VAO_ID, indicies.Length);
 		}
+		public static VAO LoadToVAO(float[] positions, float[] textureUV, float[] normals, float[] tangents, int[] indicies) {
+			int VAO_ID = CreateVAO();
+			BindVAO(VAO_ID);
+
+			BindIndicies(indicies);
+			BufferToAttrList(VAOAttribLocation.Position, positions, 3);
+			BufferToAttrList(VAOAttribLocation.Texture_UV, textureUV, 2);
+			BufferToAttrList(VAOAttribLocation.Normal, normals, 3);
+			BufferToAttrList(VAOAttribLocation.Tangent, tangents, 3);
+
+			UnbindVAO();
+			return new VAO(VAO_ID, indicies.Length);
+		}
 
 		private static void BindIndicies(int[] indicies) {
 			int VBO = GL.GenBuffer();
