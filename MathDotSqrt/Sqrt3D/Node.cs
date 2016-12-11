@@ -10,22 +10,24 @@ namespace MathDotSqrt.Sqrt3D {
 	public class Node {
 		public Vector3 ChunkLocation;
 		public Vector3 ChunkTeleport;
-		Orientation O;
+		public Orientation LookOrientation;
+		public Orientation RotatePlayer;
 
-		public Node(float cx, float cy, float cz, float relX, float relY, float relZ, Orientation o) 
-			: this(new Vector3(cx, cy, cz), new Vector3(relX, relY, relZ), o){
+		public Node(float cx, float cy, float cz, float relX, float relY, float relZ, Orientation o, Orientation p) 
+			: this(new Vector3(cx, cy, cz), new Vector3(relX, relY, relZ), o, p){
 
 		}
-		public Node(Vector3 chunkLocation, Vector3 relTeleport, Orientation o) {
+		public Node(Vector3 chunkLocation, Vector3 relTeleport, Orientation lookOrientation, Orientation rotatePlayer) {
 			ChunkLocation = chunkLocation;
 			ChunkTeleport = relTeleport;
-			this.O = o;
+			this.LookOrientation = lookOrientation;
+			this.RotatePlayer = rotatePlayer;
 		}
 
 		public bool IsLooking(Player player) {
 			if(player.Chunk == ChunkLocation) {
 				float rotY = Math.Abs(player.camera.Rotation.Y % 360);
-				switch(O) {
+				switch(LookOrientation) {
 					case Orientation.PosZ:
 					return ( rotY > 180 - 35 && rotY < 180 + 35 );
 					case Orientation.NegZ:

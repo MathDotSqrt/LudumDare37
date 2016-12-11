@@ -20,7 +20,7 @@ namespace MathDotSqrt.Sqrt3D.World {
 			private set;
 		}
 
-		private List<Mesh> meshes;
+		public List<Mesh> meshes;
 		private List<AudioSource> sources;
 		private List<Light> lights;
 		private Dictionary<LightType, List<Light>> sortedLights;

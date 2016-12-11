@@ -22,22 +22,29 @@ namespace MathDotSqrt.Sqrt3D {
 		private Material floorMaterial;
 
 		private Player player;
-		private Node node;
 
-		public List<Wall> walls;
-		public List<Node> nodes;
+		public int currentLevel = 0;
+		public List<List<Wall>> walls;
+		public List<List<Node>> nodes;
+		public List<List<Mesh>> meshes;
 
 		public Level(Scene scene, Player player) {
 			this.scene = scene;
 			this.player = player;
-			walls = new List<Wall>();
-			nodes = new List<Node>();
+			walls = new List<List<Wall>>();
+			nodes = new List<List<Node>>();
+			meshes = new List<List<Mesh>>();
 
+			for(int i = 0; i < 6; i++) {
+				walls.Add(new List<Wall>());
+				nodes.Add(new List<Node>());
+				meshes.Add(new List<Mesh>());
+			}
 			planeGeometry = OBJBumpLoader.LoadOBJ("plane");
 
-			nullPlaneMaterial = new MeshSpecularMaterial() {
+			nullPlaneMaterial = new MeshBumpMaterial() {
 				Texture = TextureLoader.LoadModelTexture("wall1.png", true),
-				//NormalMap = TextureLoader.LoadModelTexture("wall1_normal.png", true),
+				NormalMap = TextureLoader.LoadModelTexture("wall1_normal.png", true),
 			};
 			floorMaterial = new MeshBumpMaterial() {
 				Texture = TextureLoader.LoadModelTexture("floor1.png", true),
@@ -48,31 +55,41 @@ namespace MathDotSqrt.Sqrt3D {
 				Texture = TextureLoader.LoadModelTexture("eye.jpg")
 			};
 
-			BuildZTunnle(0,0,0);
-			BuildWallPosZ(0,0,0, eyeMaterial);
-			BuildWallNegZ(0,0,0);
+			ChangeLevel(0);
 
-			BuildZTunnle(0, 1, 0);
-			BuildWallPosZ(0, 1, 0, eyeMaterial);
-			for(int i = 0; i < 10; i++) {
-				BuildZTunnle(0,1,-i);
-			}
-			//BuildWallNegZ(0, 0, 0);
-
-			nodes.Add(new Node(0,0,0, 0, 1, 0, Orientation.PosZ));
-			//stop typing
-		} 
-
-		public void Update() {
-
-
-			foreach(Node node in nodes) {
-				if(node.IsLooking(player)) {
-					player.Teleport(node);
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j < 11; j++) {
+					BuildWallNegY(i - 5, 0-5, j - 5);
+					BuildWallPosY(i - 5, 10 - 5, j - 5);
+					BuildWallPosX(10 - 5, i - 5, j - 5);
+					BuildWallNegX(0 - 5, i - 5, j - 5);
+					BuildWallPosZ(i - 5, j - 5, 10 - 5);
+					BuildWallNegZ(i - 5, j - 5, 0 - 5);
 				}
 			}
+
+			BuildCube(2, 0, 2);
+			BuildCube(3, 1, 2);
+			BuildCube(4, 2, 2);
+
+			RotZ90(0, 1);
+			RotZ90(1, 2);
+			RotZ90(2, 3);
+			ChangeLevel(0);
+			//BuildWallNegY(0,0,0);
+			//stop typing
 		}
 
+		
+
+		public void ChangeLevel(int level) {
+			level %= 6;
+			currentLevel = level;
+			scene.meshes = meshes[currentLevel];
+
+		}
+
+		
 
 		public void BuildWallPosX(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
@@ -82,11 +99,7 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.Rotation.Y = -90;
 			scene.Add(mesh);
 
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX, centerY - 5, centerZ - 5, centerX, centerY + 5, centerZ + 5, Orientation.NegX));
-
+			walls[currentLevel].Add(new Wall(new Vector3(-1, 0, 0), mesh.Position, new Vector3(x, y, z), mesh.Position.X));
 		}
 		public void BuildWallNegX(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
@@ -95,10 +108,8 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.SetPosition(x * 10, y * 10 + 5, z * 10 + 5);
 			mesh.Rotation.Y = 90;
 			scene.Add(mesh);
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX, centerY - 5, centerZ - 5, centerX, centerY + 5, centerZ + 5, Orientation.PosX));
+			
+			walls[currentLevel].Add(new Wall(new Vector3(1, 0, 0), mesh.Position, new Vector3(x, y, z), mesh.Position.X));
 
 		}
 		public void BuildWallNegY(float x, float y, float z, Material m = null) {
@@ -109,11 +120,7 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.Rotation.X = -90;
 			scene.Add(mesh);
 
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX - 5, centerY, centerZ - 5, centerX + 5, centerY, centerZ + 5, Orientation.PosY));
-
+			walls[currentLevel].Add(new Wall(new Vector3(0, 1, 0), mesh.Position, new Vector3(x, y, z), mesh.Position.Y));
 		}
 		public void BuildWallPosY(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
@@ -123,10 +130,7 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.Rotation.X = 90;
 			scene.Add(mesh);
 
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX - 5, centerY, centerZ - 5, centerX + 5, centerY, centerZ + 5, Orientation.NegY));
+			walls[currentLevel].Add(new Wall(new Vector3(0, -1, 0), mesh.Position, new Vector3(x, y, z), mesh.Position.Y));
 
 		}
 		public void BuildWallNegZ(float x, float y, float z, Material m = null) {
@@ -136,11 +140,7 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.SetPosition(x * 10 + 5, y * 10 + 5, z * 10);
 			scene.Add(mesh);
 
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX - 5, centerY - 5, centerZ, centerX + 5, centerY + 5, centerZ, Orientation.PosZ));
-
+			walls[currentLevel].Add(new Wall(new Vector3(0,0,1), mesh.Position, new Vector3(x, y, z), mesh.Position.Z));
 		}
 		public void BuildWallPosZ(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
@@ -150,11 +150,7 @@ namespace MathDotSqrt.Sqrt3D {
 			mesh.Rotation.Y = 180;
 			scene.Add(mesh);
 
-			float centerX = mesh.Position.X;
-			float centerY = mesh.Position.Y;
-			float centerZ = mesh.Position.Z;
-			walls.Add(new Wall(centerX - 5, centerY - 5, centerZ, centerX + 5, centerY + 5, centerZ, Orientation.NegZ));
-
+			walls[currentLevel].Add(new Wall(new Vector3(0, 0, -1), mesh.Position, new Vector3(x, y, z), mesh.Position.Z));
 		}
 
 		public void BuildXWalls(float x, float y, float z, Material m = null) {
@@ -203,11 +199,59 @@ namespace MathDotSqrt.Sqrt3D {
 			BuildWallPosY(x, y - 1, z);
 			BuildWallNegY(x, y + 1, z);
 		}
+
+		public void RotZ180() {
+			
+		}
+		public void RotZ90(int pullFrom, int levelTo) {
+			ChangeLevel(levelTo);
+
+			for(int i = 0; i < walls[pullFrom].Count; i++) {
+				Wall wall = walls[pullFrom][i];
+				Mesh mesh = meshes[pullFrom][i];
+				Material m = mesh.Material;
+
+				float x = wall.chunk.X;
+				float y = wall.chunk.Y;
+				float z = wall.chunk.Z;
+				switch(walls[pullFrom][i].normalOrientation) {
+					case Orientation.NegX:
+					BuildWallPosY(-y, x, z, m);
+					break;
+					case Orientation.PosX:
+					BuildWallNegY(-y, x, z, m);
+					break;
+					case Orientation.PosY:
+					BuildWallPosX(-y, x, z, m);
+					break;
+					case Orientation.NegY:
+					BuildWallNegX(-y, x, z, m);
+					break;
+					case Orientation.PosZ:
+					BuildWallNegZ(-y, x, z, m);
+					break;
+					case Orientation.NegZ:
+					BuildWallPosZ(-y, x, z, m);
+					break;
+				}
+			}
+		}
+		public void Update() {
+			foreach(Node node in nodes[currentLevel]) {
+				if(node.IsLooking(player)) {
+					player.Teleport(node);
+				}
+			}
+		}
 	}
 
 	public class Wall{
 		public float x1, y1, z1, x2, y2, z2;
-		public Orientation O;
+		public Orientation normalOrientation;
+		public Vector3 normal;
+		public Vector3 position;
+		public float offset;
+		public Vector3 chunk;
 
 		public Wall(float x1, float y1, float z1, float x2, float y2, float z2, Orientation O) {
 			this.x1 = x1;
@@ -217,7 +261,38 @@ namespace MathDotSqrt.Sqrt3D {
 			this.y2 = y2;
 			this.z2 = z2;
 
-			this.O = O;
+			this.normalOrientation = O;
+		}
+
+		public Wall(Vector3 normal, Vector3 position, Vector3 chunk, float offset) {
+			this.normal = normal;
+			this.offset = offset;
+			this.position = position;
+			this.chunk = chunk;
+
+			if(normal == new Vector3(0,0,1)) {
+				normalOrientation = Orientation.PosZ;
+			}
+			if(normal == new Vector3(0, 0, -1)) {
+				normalOrientation = Orientation.NegZ;
+
+			}
+			if(normal == new Vector3(0, 1, 0)) {
+				normalOrientation = Orientation.PosY;
+
+			}
+			if(normal == new Vector3(0, -1, 0)) {
+				normalOrientation = Orientation.NegY;
+
+			}
+			if(normal == new Vector3(1, 0, 0)) {
+				normalOrientation = Orientation.PosX;
+
+			}
+			if(normal == new Vector3(-1, 0, 0)) {
+				normalOrientation = Orientation.NegX;
+
+			}
 		}
 	}
 }

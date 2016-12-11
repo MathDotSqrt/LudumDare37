@@ -4,6 +4,7 @@ using MathDotSqrt.Sqrt3D.Util.Math;
 using MathDotSqrt.Sqrt3D.World.Objects;
 using MathDotSqrt.Sqrt3D.World.Objects.Cameras;
 using OpenTK;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,11 @@ namespace MathDotSqrt.Sqrt3D {
 		public float radX = 2f;
 		public float radZ = 2;
 
-		public float radNegY = 6;
+		public float radNegY = 20;
 		public float radPosY = 1;
 
-		
+		public Vector3 minBounds = new Vector3(-1.5f, -7, -1.5f);
+		public Vector3 maxBounds = new Vector3(1.5f, 2, 1.5f);
 
 		public Player(float x, float y, float z) : this(new Vector3(x, y, z)){
 
@@ -48,68 +50,153 @@ namespace MathDotSqrt.Sqrt3D {
 		}
 
 		public void TestCollision(List<Wall> walls) {
-			canMoveNegZ = true;
-			canMovePosZ = true;
+			
+
+			Vector3 min = minBounds + camera.Position;
+			Vector3 max = maxBounds + camera.Position;
 			canMovePosX = true;
 			canMoveNegX = true;
 			canMovePosY = true;
 			canMoveNegY = true;
+			canMovePosZ = true;
+			canMoveNegZ = true;
+
 			foreach(Wall wall in walls) {
-				if(wall.O == Orientation.PosZ) {
-					if(camera.Position.Z - radZ < wall.z1) {
-						if(wall.x1 < camera.Position.X && camera.Position.X < wall.x2) {
-							if(wall.y1 < camera.Position.Y && camera.Position.Y < wall.y2) {
-								canMoveNegZ = false;
-							}
-						}
-					}
-				}
-				else if(wall.O == Orientation.NegZ) {
-					if(camera.Position.Z + radZ > wall.z1) {
-						if(wall.x1 < camera.Position.X && camera.Position.X < wall.x2) {
-							if(wall.y1 < camera.Position.Y && camera.Position.Y < wall.y2) {
-								canMovePosZ = false;
-							}
-						}
-					}
-				}
-				else if(wall.O == Orientation.NegX) {
-					if(camera.Position.X + radX > wall.x1) {
-						if(wall.z1 < camera.Position.Z && camera.Position.Z < wall.z2) {
-							if(wall.y1 < camera.Position.Y && camera.Position.Y < wall.y2) {
-								canMovePosX = false;
-							}
-						}
-					}
-				}
-				else if(wall.O == Orientation.PosX) {
-					if(camera.Position.X - radX < wall.x1) {
-						if(wall.z1 < camera.Position.Z && camera.Position.Z < wall.z2) {
-							if(wall.y1 < camera.Position.Y && camera.Position.Y < wall.y2) {
-								canMoveNegX = false;
-							}
-						}
-					}
-				}
-				else if(wall.O == Orientation.NegY) {
-					if(camera.Position.Y + radPosY > wall.y1) {
-						if(wall.z1 < camera.Position.Z && camera.Position.Z < wall.z2) {
-							if(wall.x1 < camera.Position.X && camera.Position.X < wall.x2) {
-								canMovePosY = false;
-							}
-						}
-					}
-				}
-				else if(wall.O == Orientation.PosY) {
-					if(camera.Position.Y - radNegY < wall.y1) {
-						if(wall.z1 < camera.Position.Z && camera.Position.Z < wall.z2) {
-							if(wall.x1 < camera.Position.X && camera.Position.X < wall.x2) {
-								canMoveNegY = false;
-							}
-						}
+				if(( wall.position - camera.Position ).LengthSquared < 121 && PlaneCollision(wall.normal, wall.offset, min, max)) {
+					switch(wall.normalOrientation) {
+						case Orientation.PosZ:
+						if(!PlanePos(new Vector3(1, 0, 0), 10 + wall.position.X - 5, min, max))
+							if(!PlanePos(new Vector3(-1, 0, 0), -wall.position.X + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMoveNegZ = false;
+						break;
+						case Orientation.NegZ:
+						if(!PlanePos(new Vector3(1, 0, 0), 10 + wall.position.X - 5, min, max))
+							if(!PlanePos(new Vector3(-1, 0, 0), -wall.position.X + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMovePosZ = false;
+						break;
+						case Orientation.NegX:
+						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
+							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMovePosX = false;
+						break;
+						case Orientation.PosX:
+						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
+							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMoveNegX = false;
+						break;
+						case Orientation.PosY:
+						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
+							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMoveNegY = false;
+						break;
+						case Orientation.NegY:
+						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
+							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
+								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
+									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+										canMovePosY = false;
+						break;
+
 					}
 				}
 			}
+			
+		}
+
+		public bool PlaneCollision(Vector3 normal, float offset, Vector3 min, Vector3 max) {
+			bool isNeg = normal.X == 1 | normal.Y == 1 | normal.Z == 1;
+			offset = !isNeg ? -offset : offset;
+
+			Vector3 vec1;
+			Vector3 vec2;
+
+			if(normal.X >= 0) {
+				vec1.X = min.X;
+				vec2.X = max.X;
+			}
+			else {
+				vec1.X = max.X;
+				vec2.X = min.X;
+			}
+			if(normal.Y >= 0) {
+				vec1.Y = min.Y;
+				vec2.Y = max.Y;
+			}
+			else {
+				vec1.Y = max.Y;
+				vec2.Y = min.Y;
+			}
+			if(normal.Z >= 0) {
+				vec1.Z = min.Z;
+				vec2.Z = max.Z;
+			}
+			else {
+				vec1.Z = max.Z;
+				vec2.Z = min.Z;
+			}
+
+			float posSide = ( normal.X * vec1.X ) + ( normal.Y * vec1.Y ) + ( normal.Z * vec1.Z ) - offset;
+			if(posSide > 0) {
+				return false;
+			}
+			float negSide = ( normal.X * vec2.X ) + ( normal.Y * vec2.Y ) + ( normal.Z * vec2.Z ) - offset;
+			if(negSide < 0) {
+				return false;
+			}
+
+			return true;
+		}
+		public bool PlanePos(Vector3 normal, float offset, Vector3 min, Vector3 max) {
+			Vector3 vec1;
+			Vector3 vec2;
+
+			if(normal.X >= 0) {
+				vec1.X = min.X;
+				vec2.X = max.X;
+			}
+			else {
+				vec1.X = max.X;
+				vec2.X = min.X;
+			}
+			if(normal.Y >= 0) {
+				vec1.Y = min.Y;
+				vec2.Y = max.Y;
+			}
+			else {
+				vec1.Y = max.Y;
+				vec2.Y = min.Y;
+			}
+			if(normal.Z >= 0) {
+				vec1.Z = min.Z;
+				vec2.Z = max.Z;
+			}
+			else {
+				vec1.Z = max.Z;
+				vec2.Z = min.Z;
+			}
+
+			bool pos = false;
+			bool neg = false;
+			float posSide = ( normal.X * vec1.X ) + ( normal.Y * vec1.Y ) + ( normal.Z * vec1.Z ) -(offset);
+			if(posSide > 0) {
+				pos = true;
+			}
+			float negSide = ( normal.X * vec2.X ) + ( normal.Y * vec2.Y ) + ( normal.Z * vec2.Z ) - (offset);
+			if(negSide < 0) {
+				neg = true;
+			}
+
+			return pos && !neg;
 		}
 
 		public void Update() {
@@ -121,23 +208,42 @@ namespace MathDotSqrt.Sqrt3D {
 			ChunkPosition.Z = camera.Position.Z - Chunk.Z * 10;
 
 			vel.Y += gravity;
-
 			if((vel.Y < 0 && !canMoveNegY) || (vel.Y > 0 && !canMovePosY))
 				vel.Y = 0;
 
-			camera.Position.Y += vel.Y;
+			//camera.Position.Y += vel.Y;
 		}
 
 		
 
 		public void Jump() {
-			vel.Y = .8f;
+			vel.Y = 1.3f;
 		}
 
 		public void Teleport(Node node) {
 			//Output.Good("looking");
-			camera.Position = node.ChunkTeleport * 10;
-			camera.Position += ChunkPosition;
+			//camera.Position = node.ChunkTeleport * 10;
+			//camera.Position.X += ChunkPosition.Y;
+			//camera.Position.Y += ChunkPosition.X;
+			//camera.Position.Z += ChunkPosition.Z;
+			float rot = Math.Abs(camera.Rotation.Y % 90);
+
+			switch(node.RotatePlayer) {
+				case Orientation.PosX:
+				//camera.Rotation.Y = rot;
+				break;
+				case Orientation.NegX:
+				//camera.Rotation.Y = rot + 180;
+				break;
+				case Orientation.PosZ:
+				//camera.Rotation.Y = rot + 270;
+				break;
+				case Orientation.NegZ:
+				if(rot > 45)
+					rot = 90 - rot;
+					camera.Rotation.Y = rot + 180;
+				break;
+			}
 		}
 
 		public void MoveForward(float vel) {
@@ -147,7 +253,6 @@ namespace MathDotSqrt.Sqrt3D {
 			vec.X += vel * (float)Math.Sin(rad);
 			vec.Y += vel * -(float)Math.Cos(rad);
 
-			Output.Good(( vec.Y < 0 || canMovePosZ ));
 			if((vec.X > 0 && canMovePosX) || ( vec.X < 0 && canMoveNegX))
 				camera.Position.X += vec.X;
 			if((vec.Y < 0 && canMoveNegZ) || (vec.Y > 0 && canMovePosZ))

@@ -59,12 +59,13 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 
 		public override void Update(float delta) {
 			Input.UpdatePlayer(player);
-			player.TestCollision(level.walls);
+			player.TestCollision(level.walls[level.currentLevel]);
 			player.Update();
 			level.Update();
 
-			if (Keyboard.GetState().IsKeyDown(Key.M)) {
-				gsm.EnterGameState(GameStateManager.MENU_STATE);
+			if (Input.IsMTyped) {
+				//gsm.EnterGameState(GameStateManager.MENU_STATE);
+				level.ChangeLevel(level.currentLevel+1);
 			}
 
 			

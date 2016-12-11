@@ -36,6 +36,8 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 		public static bool IsLeftTyped = false;
 		public static bool IsRightTyped = false;
 
+		public static bool IsMTyped = false;
+
 		public static void AppendCurrentState() {
 			currentState = Keyboard.GetState();
 		}
@@ -51,6 +53,7 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 			IsDownTyped = false;
 			IsLeftTyped = false;
 			IsRightTyped = false;
+			IsMTyped = false;
 			if(currentState.IsKeyDown(Key.Up) && lastFrameState.IsKeyDown(Key.Up))
 				IsUpTyped = true;
 			if(currentState.IsKeyDown(Key.Down) && lastFrameState.IsKeyDown(Key.Down))
@@ -59,6 +62,8 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 				IsLeftTyped = true;
 			if(currentState.IsKeyDown(Key.Right) && lastFrameState.IsKeyDown(Key.Right))
 				IsRightTyped = true;
+			if(currentState.IsKeyDown(Key.M) && lastFrameState.IsKeyUp(Key.M))
+				IsMTyped = true;
 		}
 		public static void UpdatePlayer(Player player) {
 			KeyboardState k = Keyboard.GetState();
