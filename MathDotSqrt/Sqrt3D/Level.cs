@@ -59,19 +59,19 @@ namespace MathDotSqrt.Sqrt3D {
 
 			for(int i = 0; i < 11; i++) {
 				for(int j = 0; j < 11; j++) {
-					BuildWallNegY(i - 5, 0-5, j - 5);
-					BuildWallPosY(i - 5, 10 - 5, j - 5);
-					BuildWallPosX(10 - 5, i - 5, j - 5);
-					BuildWallNegX(0 - 5, i - 5, j - 5);
-					BuildWallPosZ(i - 5, j - 5, 10 - 5);
-					BuildWallNegZ(i - 5, j - 5, 0 - 5);
+					BuildWallNegY(i, 0, j);
+					BuildWallPosY(i, 10, j);
+					BuildWallPosX(10, i, j);
+					BuildWallNegX(0, i, j );
+					BuildWallPosZ(i, j, 10);
+					BuildWallNegZ(i, j, 0);
 				}
 			}
 
 			BuildCube(2, 0, 2);
 			BuildCube(3, 1, 2);
 			BuildCube(4, 2, 2);
-
+			Center(0, -5,-5,-5);
 			RotZ90(0, 1);
 			RotZ90(1, 2);
 			RotZ90(2, 3);
@@ -89,7 +89,45 @@ namespace MathDotSqrt.Sqrt3D {
 
 		}
 
-		
+		public void Center(int level, float xOffset, float yOffset, float zOffset) {
+			List<Wall> wallList = walls[level];
+			List<Mesh> meshList = meshes[level];
+
+			walls[level] = new List<Wall>();
+			meshes[level] = new List<Mesh>();
+
+			ChangeLevel(level);
+
+			for(int i = 0; i < wallList.Count; i++) {
+				Wall wall = wallList[i];
+				Mesh mesh = meshList[i];
+				Material m = mesh.Material;
+
+				float x = wall.chunk.X;
+				float y = wall.chunk.Y;
+				float z = wall.chunk.Z;
+				switch(wallList[i].normalOrientation) {
+					case Orientation.NegX:
+					BuildWallPosX( x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+					case Orientation.PosX:
+					BuildWallNegX(x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+					case Orientation.PosY:
+					BuildWallNegY(x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+					case Orientation.NegY:
+					BuildWallPosY(x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+					case Orientation.PosZ:
+					BuildWallNegZ( x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+					case Orientation.NegZ:
+					BuildWallPosZ(x + xOffset, y + yOffset, z + zOffset, m);
+					break;
+				}
+			}
+		}
 
 		public void BuildWallPosX(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
