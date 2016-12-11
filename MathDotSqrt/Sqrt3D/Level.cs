@@ -25,18 +25,19 @@ namespace MathDotSqrt.Sqrt3D {
 		private Node node;
 
 		public List<Wall> walls;
+		public List<Node> nodes;
 
 		public Level(Scene scene, Player player) {
 			this.scene = scene;
 			this.player = player;
 			walls = new List<Wall>();
-
+			nodes = new List<Node>();
 
 			planeGeometry = OBJBumpLoader.LoadOBJ("plane");
 
-			nullPlaneMaterial = new MeshBumpMaterial() {
+			nullPlaneMaterial = new MeshSpecularMaterial() {
 				Texture = TextureLoader.LoadModelTexture("wall1.png", true),
-				NormalMap = TextureLoader.LoadModelTexture("wall1_normal.png", true)
+				//NormalMap = TextureLoader.LoadModelTexture("wall1_normal.png", true),
 			};
 			floorMaterial = new MeshBumpMaterial() {
 				Texture = TextureLoader.LoadModelTexture("floor1.png", true),
@@ -47,26 +48,29 @@ namespace MathDotSqrt.Sqrt3D {
 				Texture = TextureLoader.LoadModelTexture("eye.jpg")
 			};
 
-			BuildYWalls(0, 0, 0);
-			BuildYWalls(1, 0, 0);
-			BuildYWalls(1, 0, 1);
-			BuildYWalls(0, 0, 1);
-			BuildWallNegZ(0, 0, 0);
-			BuildWallNegZ(1, 0, 0);
-			BuildWallPosZ(0, 0, 1);
-			BuildWallPosZ(1, 0, 1);
-			BuildWallPosX(1, 0, 0);
-			BuildWallPosX(1, 0, 1);
-			BuildWallNegX(0, 0, 0);
-			BuildWallNegX(0, 0, 1);
-		}
+			BuildZTunnle(0,0,0);
+			BuildWallPosZ(0,0,0, eyeMaterial);
+			BuildWallNegZ(0,0,0);
+
+			BuildZTunnle(0, 1, 0);
+			BuildWallPosZ(0, 1, 0, eyeMaterial);
+			for(int i = 0; i < 10; i++) {
+				BuildZTunnle(0,1,-i);
+			}
+			//BuildWallNegZ(0, 0, 0);
+
+			nodes.Add(new Node(0,0,0, 0, 1, 0, Orientation.PosZ));
+			//stop typing
+		} 
 
 		public void Update() {
-			
 
-			//if(node.IsLooking(player)) {
-			//	player.Teleport(node);
-			//}
+
+			foreach(Node node in nodes) {
+				if(node.IsLooking(player)) {
+					player.Teleport(node);
+				}
+			}
 		}
 
 
@@ -190,7 +194,15 @@ namespace MathDotSqrt.Sqrt3D {
 			BuildXWalls(x, y, z, m);
 		}
 
-
+		public void BuildCube(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+			BuildWallPosX(x - 1, y, z);
+			BuildWallNegX(x + 1, y, z);
+			BuildWallPosZ(x, y, z - 1);
+			BuildWallNegZ(x, y, z + 1);
+			BuildWallPosY(x, y - 1, z);
+			BuildWallNegY(x, y + 1, z);
+		}
 	}
 
 	public class Wall{

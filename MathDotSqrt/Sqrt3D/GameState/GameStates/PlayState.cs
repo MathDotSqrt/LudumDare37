@@ -53,7 +53,9 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			Mesh mesh = new Mesh(cubeGeometry, material);
 			scene.Add(mesh);
 			gui = new GuiField();
+
 		}
+
 
 		public override void Update(float delta) {
 			Input.UpdatePlayer(player);
@@ -64,6 +66,8 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			if (Keyboard.GetState().IsKeyDown(Key.M)) {
 				gsm.EnterGameState(GameStateManager.MENU_STATE);
 			}
+
+			
 		}
 		public override void Render(OpenGLRenderer renderer) {
 			renderer.RenderScene(scene);

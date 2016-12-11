@@ -123,7 +123,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 					gsm.EnterGameState(GameStateManager.PLAY_STATE);
 					break;
 					case "options":
-					gsm.EnterGameState(GameStateManager.OPTION_STATE);
+					//gsm.EnterGameState(GameStateManager.OPTION_STATE);
 					break;
 					default:
 					Environment.Exit(0);

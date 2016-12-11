@@ -28,6 +28,14 @@ namespace MathDotSqrt.Sqrt3D {
 				switch(O) {
 					case Orientation.PosZ:
 					return ( rotY > 180 - 35 && rotY < 180 + 35 );
+					case Orientation.NegZ:
+					return ( rotY > 0 - 35 && rotY < 0 + 35 );
+					case Orientation.PosX:
+					return ( rotY > 90 - 35 && rotY < 90 + 35 );
+					case Orientation.NegX:
+					return ( rotY > 270 - 35 && rotY < 270 + 35 );
+
+
 				}
 			}
 			return false;

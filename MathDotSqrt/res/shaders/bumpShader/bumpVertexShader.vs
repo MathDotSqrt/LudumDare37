@@ -22,7 +22,6 @@ out vec3 toCamera;
 out vec3 toLightVector[4];
 
 void main(void){
-	vec4 worldPosition = transformationMatrix * vec4(position, 1);	
 
 	mat4 modelViewMatrix = viewMatrix * transformationMatrix;
 	vec4 positionRelativeToCam = modelViewMatrix * vec4(position, 1);
