@@ -16,6 +16,11 @@ namespace MathDotSqrt.Sqrt3D {
 		public Vector3 Chunk;
 		public Vector3 ChunkPosition;
 
+		public Vector3 vel;
+		public float gravity = -.05f;
+		public float drag = .01f;
+		public float moveSpeed = .05f;
+
 		public bool canMovePosX;
 		public bool canMoveNegX;
 		public bool canMovePosY;
@@ -26,8 +31,11 @@ namespace MathDotSqrt.Sqrt3D {
 		public float radX = 2f;
 		public float radZ = 2;
 
-		public float radY = 4;
+		public float radNegY = 6;
 		public float radPosY = 1;
+
+		
+
 		public Player(float x, float y, float z) : this(new Vector3(x, y, z)){
 
 		}
@@ -37,15 +45,6 @@ namespace MathDotSqrt.Sqrt3D {
 			Chunk = new Vector3();
 			ChunkPosition = new Vector3();
 
-		}
-
-		public void Update() {
-			Chunk.X = (float)Math.Floor((double)camera.Position.X / 10.0);
-			Chunk.Y = (float)Math.Floor((double)camera.Position.Y / 10.0);
-			Chunk.Z = (float)Math.Floor((double)camera.Position.Z / 10.0);
-			ChunkPosition.X = camera.Position.X - Chunk.X * 10;
-			ChunkPosition.Y = camera.Position.Y - Chunk.Y * 10;
-			ChunkPosition.Z = camera.Position.Z - Chunk.Z * 10;
 		}
 
 		public void TestCollision(List<Wall> walls) {
@@ -102,7 +101,7 @@ namespace MathDotSqrt.Sqrt3D {
 					}
 				}
 				else if(wall.O == Orientation.PosY) {
-					if(camera.Position.Y - radY < wall.y1) {
+					if(camera.Position.Y - radNegY < wall.y1) {
 						if(wall.z1 < camera.Position.Z && camera.Position.Z < wall.z2) {
 							if(wall.x1 < camera.Position.X && camera.Position.X < wall.x2) {
 								canMoveNegY = false;
@@ -111,6 +110,28 @@ namespace MathDotSqrt.Sqrt3D {
 					}
 				}
 			}
+		}
+
+		public void Update() {
+			Chunk.X = (float)Math.Floor((double)camera.Position.X / 10.0);
+			Chunk.Y = (float)Math.Floor((double)camera.Position.Y / 10.0);
+			Chunk.Z = (float)Math.Floor((double)camera.Position.Z / 10.0);
+			ChunkPosition.X = camera.Position.X - Chunk.X * 10;
+			ChunkPosition.Y = camera.Position.Y - Chunk.Y * 10;
+			ChunkPosition.Z = camera.Position.Z - Chunk.Z * 10;
+
+			vel.Y += gravity;
+
+			if((vel.Y < 0 && !canMoveNegY) || (vel.Y > 0 && !canMovePosY))
+				vel.Y = 0;
+
+			camera.Position.Y += vel.Y;
+		}
+
+		
+
+		public void Jump() {
+			vel.Y = .8f;
 		}
 
 		public void Teleport(Node node) {
@@ -146,7 +167,7 @@ namespace MathDotSqrt.Sqrt3D {
 
 		public void MoveUp(float vel) {
 			if((vel > 0 && canMovePosY) || (vel < 0 && canMoveNegY))
-			camera.Position.Y += vel;
+				camera.Position.Y += vel;
 		
 		}
 	}

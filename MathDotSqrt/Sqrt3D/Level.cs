@@ -41,26 +41,24 @@ namespace MathDotSqrt.Sqrt3D {
 			floorMaterial = new MeshBumpMaterial() {
 				Texture = TextureLoader.LoadModelTexture("floor1.png", true),
 				NormalMap = TextureLoader.LoadModelTexture("floor_normal.png", true),
-				Shininess = 1000
+				Shininess = 10
 			};
 			eyeMaterial = new MeshSpecularMaterial() {
 				Texture = TextureLoader.LoadModelTexture("eye.jpg")
 			};
 
+			BuildYWalls(0, 0, 0);
+			BuildYWalls(1, 0, 0);
+			BuildYWalls(1, 0, 1);
+			BuildYWalls(0, 0, 1);
 			BuildWallNegZ(0, 0, 0);
-			BuildWallPosZ(0, 0, 0);
-			BuildWallPosX(0, 0, 0);
+			BuildWallNegZ(1, 0, 0);
+			BuildWallPosZ(0, 0, 1);
+			BuildWallPosZ(1, 0, 1);
+			BuildWallPosX(1, 0, 0);
+			BuildWallPosX(1, 0, 1);
 			BuildWallNegX(0, 0, 0);
-			BuildWallPosY(0, 0, 0);
-			BuildWallNegY(0, 0, 0);
-
-
-
-			//node = new Node(0, 0, 0, 0, 1, 0, Orientation.PosZ);
-
-			/////////////////////////////////////////////////////////////
-
-
+			BuildWallNegX(0, 0, 1);
 		}
 
 		public void Update() {
@@ -174,7 +172,22 @@ namespace MathDotSqrt.Sqrt3D {
 			BuildWallNegZ(x, y, z, m);
 		}
 		public void BuildXTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
+			BuildYWalls(x, y, z, m);
+			BuildZWalls(x, y, z, m);
+		}
+		public void BuildYTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildXWalls(x, y, z, m);
+			BuildZWalls(x, y, z, m);
+		}
+		public void BuildZTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildYWalls(x, y, z, m);
+			BuildXWalls(x, y, z, m);
 		}
 
 
