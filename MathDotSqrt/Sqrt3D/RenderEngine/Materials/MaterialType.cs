@@ -13,6 +13,7 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine.Materials {
 		MeshLitMaterial = 2,
 		MeshSpecularMaterial = 3,
 		MeshSkyboxMaterial = 4,
+		MeshBumpMaterial = 5,
 
 		GuiBasicMaterial = 10,
 		GuiFontMaterial = 11

@@ -59,8 +59,8 @@ namespace MathDotSqrt.Sqrt3D {
 
 			//Update time is the ammount of time passed from the previous frame (called delta normally)
 			//this is variable so it is used for physics calculation with enitties
-			
 
+			Input.AppendCurrentState();
 			Input.UpdateInput();
 			if(Input.FullScreenToggle) {
 				if(WindowState == WindowState.Normal)
@@ -81,6 +81,8 @@ namespace MathDotSqrt.Sqrt3D {
 				Point mousePos = PointToScreen(center);
 				OpenTK.Input.Mouse.SetPosition(mousePos.X, mousePos.Y);
 			}
+
+			Input.AppendLastState();
 		}
 
 		

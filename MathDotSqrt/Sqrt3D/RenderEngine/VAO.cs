@@ -9,6 +9,7 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine{
 		Position = 0,
 		Texture_UV = 1,
 		Normal = 2,
+		Tangent = 3
 	}
 
 	public class VAO {

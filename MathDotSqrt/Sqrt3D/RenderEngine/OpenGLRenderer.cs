@@ -125,6 +125,9 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine {
 					case MaterialType.MeshSpecularMaterial:
 					RenderSpecular(mesh, camera, scene.GetSortedLights());
 					break;
+					case MaterialType.MeshBumpMaterial:
+					RenderBump(mesh, camera, scene.GetSortedLights());
+					break;
 					case MaterialType.MeshSkyboxMaterial:
 					RenderSkybox(mesh, camera);
 					break;
@@ -287,6 +290,39 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine {
 			GL.DisableVertexAttribArray((int)VAOAttribLocation.Position);
 			GL.DisableVertexAttribArray((int)VAOAttribLocation.Texture_UV);
 			GL.DisableVertexAttribArray((int)VAOAttribLocation.Normal);
+		}
+		private void RenderBump(Mesh mesh, Camera camera, Dictionary<LightType, List<Light>> lights) {
+			Geometry geometry = mesh.Geometry;
+			MeshBumpMaterial material = (MeshBumpMaterial)mesh.Material;
+			BumpShader shader = (BumpShader)material.Shader;
+
+			GL.EnableVertexAttribArray((int)VAOAttribLocation.Position);
+			GL.EnableVertexAttribArray((int)VAOAttribLocation.Texture_UV);
+			GL.EnableVertexAttribArray((int)VAOAttribLocation.Normal);
+			GL.EnableVertexAttribArray((int)VAOAttribLocation.Tangent);
+			shader.Start();
+
+			shader.LoadTransformationMatrix(mesh.TransformationMatrix);
+			shader.LoadCamera(camera);
+
+			shader.LoadSpecularColor(material.SpecularColor);
+			shader.LoadSpecularShininess(material.Shininess);
+
+			shader.ConnectTextures();
+			shader.LoadTexture(material.Texture);
+			shader.LoadNormal(material.NormalMap);
+
+			shader.LoadPointLights(lights[LightType.PointLight], camera);
+			shader.LoadAmbientLights(lights[LightType.AmbientLight]);
+
+			GL.DrawElements(BeginMode.Triangles, geometry.VAO.IndexCount, DrawElementsType.UnsignedInt, 0);
+
+			shader.Stop();
+			GL.DisableVertexAttribArray((int)VAOAttribLocation.Position);
+			GL.DisableVertexAttribArray((int)VAOAttribLocation.Texture_UV);
+			GL.DisableVertexAttribArray((int)VAOAttribLocation.Normal);
+			GL.DisableVertexAttribArray((int)VAOAttribLocation.Tangent);
+
 		}
 		private void RenderSkybox(Mesh mesh, Camera camera) {
 			Geometry geometry = mesh.Geometry;

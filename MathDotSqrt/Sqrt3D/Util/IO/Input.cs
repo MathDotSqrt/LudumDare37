@@ -16,7 +16,10 @@ using MathDotSqrt.Sqrt3D.World.Objects;
 
 namespace MathDotSqrt.Sqrt3D.Util.IO{
 	public static class Input {
-
+		public static KeyboardState currentState {
+			get;
+			private set;
+		}
 		public static KeyboardState lastFrameState {
 			get;
 			private set;
@@ -33,48 +36,52 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 		public static bool IsLeftTyped = false;
 		public static bool IsRightTyped = false;
 
+		public static void AppendCurrentState() {
+			currentState = Keyboard.GetState();
+		}
+		public static void AppendLastState() {
+			lastFrameState = currentState;
+		}
 		public static void UpdateInput() {
-			KeyboardState k = Keyboard.GetState();
 			FullScreenToggle = false;
-			if(k.IsKeyDown(Key.F11) && lastFrameState.IsKeyUp(Key.F11))
+			if(currentState.IsKeyDown(Key.F11) && lastFrameState.IsKeyUp(Key.F11))
 				FullScreenToggle = true;
 
 			IsUpTyped = false;
 			IsDownTyped = false;
 			IsLeftTyped = false;
 			IsRightTyped = false;
-			if(k.IsKeyDown(Key.Up) && lastFrameState.IsKeyUp(Key.Up))
+			if(currentState.IsKeyDown(Key.Up) && lastFrameState.IsKeyDown(Key.Up))
 				IsUpTyped = true;
-			if(k.IsKeyDown(Key.Down) && lastFrameState.IsKeyUp(Key.Down))
+			if(currentState.IsKeyDown(Key.Down) && lastFrameState.IsKeyDown(Key.Down))
 				IsDownTyped = true;
-			if(k.IsKeyDown(Key.Left) && lastFrameState.IsKeyUp(Key.Left))
+			if(currentState.IsKeyDown(Key.Left) && lastFrameState.IsKeyDown(Key.Left))
 				IsLeftTyped = true;
-			if(k.IsKeyDown(Key.Right) && lastFrameState.IsKeyUp(Key.Right))
+			if(currentState.IsKeyDown(Key.Right) && lastFrameState.IsKeyDown(Key.Right))
 				IsRightTyped = true;
-
-			//Output.Good(FullScreenToggle);
-
-			lastFrameState = k;
 		}
-		public static void UpdateCamera(Camera camera) {
+		public static void UpdatePlayer(Player player) {
 			KeyboardState k = Keyboard.GetState();
-			if(k.IsKeyDown(Key.W) | k.IsKeyDown(Key.Up))
-				camera.MoveForward(.1f);
-			if(k.IsKeyDown(Key.S) | k.IsKeyDown(Key.Down))
-				camera.MoveForward(-.1f);
-			if(k.IsKeyDown(Key.D) | k.IsKeyDown(Key.Right))
-				camera.MoveLeft(.1f);
-			if(k.IsKeyDown(Key.A) | k.IsKeyDown(Key.Left))
-				camera.MoveLeft(-.1f);
-			if(k.IsKeyDown(Key.Space))
-				camera.Position.Y += .1f;
-			if(k.IsKeyDown(Key.ShiftLeft))
-				camera.Position.Y -= .1f;
-			if(k.IsKeyDown(Key.Escape))
+
+			if(currentState.IsKeyDown(Key.W) | currentState.IsKeyDown(Key.Up))
+				player.MoveForward(.4f);
+			if(currentState.IsKeyDown(Key.S) | currentState.IsKeyDown(Key.Down))
+				player.MoveForward(-.4f);
+			if(currentState.IsKeyDown(Key.D) | currentState.IsKeyDown(Key.Right))
+				player.MoveLeft(.4f);
+			if(currentState.IsKeyDown(Key.A) | currentState.IsKeyDown(Key.Left))
+				player.MoveLeft(-.4f);
+			if(currentState.IsKeyDown(Key.Space) && lastFrameState.IsKeyUp(Key.Space))
+				player.Jump();
+			if(currentState.IsKeyDown(Key.ShiftLeft))
+				player.MoveUp(-.4f);
+			if(currentState.IsKeyDown(Key.Escape))
 				Environment.Exit(0);
 
-			camera.RotateY(MouseVel.X * SensitivityX);
-			camera.RotateX(MouseVel.Y * SensitivityY);
+			player.camera.RotateY(MouseVel.X * SensitivityX);
+			player.camera.RotateX(MouseVel.Y * SensitivityY);
+
+
 		}
 
 

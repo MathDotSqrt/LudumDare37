@@ -19,102 +19,193 @@ namespace MathDotSqrt.Sqrt3D {
 		private Geometry planeGeometry;
 		private Material nullPlaneMaterial;
 		private Material eyeMaterial;
-		private Player player;
+		private Material floorMaterial;
 
+		private Player player;
 		private Node node;
 
-		public Level(Scene scene) {
+		public List<Wall> walls;
+
+		public Level(Scene scene, Player player) {
 			this.scene = scene;
-			planeGeometry = OBJLoader.LoadOBJ("plane");
-			nullPlaneMaterial = new MeshSpecularMaterial();
+			this.player = player;
+			walls = new List<Wall>();
+
+
+			planeGeometry = OBJBumpLoader.LoadOBJ("plane");
+
+			nullPlaneMaterial = new MeshBumpMaterial() {
+				Texture = TextureLoader.LoadModelTexture("wall1.png", true),
+				NormalMap = TextureLoader.LoadModelTexture("wall1_normal.png", true)
+			};
+			floorMaterial = new MeshBumpMaterial() {
+				Texture = TextureLoader.LoadModelTexture("floor1.png", true),
+				NormalMap = TextureLoader.LoadModelTexture("floor_normal.png", true),
+				Shininess = 10
+			};
 			eyeMaterial = new MeshSpecularMaterial() {
-				Texture = TextureLoader.LoadModelTexture("tim.jpg")
+				Texture = TextureLoader.LoadModelTexture("eye.jpg")
 			};
 
-			BuildBox(0, 0, 0, null, Orientation.NegZ);
-			BuildWallNegZ(0, 0, 0, eyeMaterial);
-
-			node = new Node(0, 0, 0, 0, 0, Orientation.NegZ);
-
-
-
-			/////////////////////////////////////////////////////////////
-
-			player = new Player(5, 5, 5);
-			Light point = new PointLight(Color.White, 1);
-			player.camera.Add(point);
-			scene.Add(player.camera);
-			scene.Add(point);
+			BuildYWalls(0, 0, 0);
+			BuildYWalls(1, 0, 0);
+			BuildYWalls(1, 0, 1);
+			BuildYWalls(0, 0, 1);
+			BuildWallNegZ(0, 0, 0);
+			BuildWallNegZ(1, 0, 0);
+			BuildWallPosZ(0, 0, 1);
+			BuildWallPosZ(1, 0, 1);
+			BuildWallPosX(1, 0, 0);
+			BuildWallPosX(1, 0, 1);
+			BuildWallNegX(0, 0, 0);
+			BuildWallNegX(0, 0, 1);
 		}
 
 		public void Update() {
-			player.Update();
-			Output.Good(node.IsLooking(player));
+			
+
+			//if(node.IsLooking(player)) {
+			//	player.Teleport(node);
+			//}
 		}
 
 
-		public void BuildWallNegX(float x, float y, float z, Material m = null) {
+		public void BuildWallPosX(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10 + 10, y * 10 + 5, z * 10 + 5);
 			mesh.Rotation.Y = -90;
 			scene.Add(mesh);
+
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX, centerY - 5, centerZ - 5, centerX, centerY + 5, centerZ + 5, Orientation.NegX));
+
 		}
-		public void BuildWallPosX(float x, float y, float z, Material m = null) {
+		public void BuildWallNegX(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10, y * 10 + 5, z * 10 + 5);
 			mesh.Rotation.Y = 90;
 			scene.Add(mesh);
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX, centerY - 5, centerZ - 5, centerX, centerY + 5, centerZ + 5, Orientation.PosX));
+
 		}
-		public void BuildWallPosY(float x, float y, float z, Material m = null) {
+		public void BuildWallNegY(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10 + 5, y * 10, z * 10 + 5);
 			mesh.Rotation.X = -90;
 			scene.Add(mesh);
+
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX - 5, centerY, centerZ - 5, centerX + 5, centerY, centerZ + 5, Orientation.PosY));
+
 		}
-		public void BuildWallNegY(float x, float y, float z, Material m = null) {
+		public void BuildWallPosY(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10 + 5, y * 10 + 10, z * 10 + 5);
 			mesh.Rotation.X = 90;
 			scene.Add(mesh);
+
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX - 5, centerY, centerZ - 5, centerX + 5, centerY, centerZ + 5, Orientation.NegY));
+
 		}
-		public void BuildWallPosZ(float x, float y, float z, Material m = null) {
+		public void BuildWallNegZ(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10 + 5, y * 10 + 5, z * 10);
 			scene.Add(mesh);
+
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX - 5, centerY - 5, centerZ, centerX + 5, centerY + 5, centerZ, Orientation.PosZ));
+
 		}
-		public void BuildWallNegZ(float x, float y, float z, Material m = null) {
+		public void BuildWallPosZ(float x, float y, float z, Material m = null) {
 			Material material = ( m == null ) ? nullPlaneMaterial : m;
 
 			Mesh mesh = new Mesh(planeGeometry, material);
 			mesh.SetPosition(x * 10 + 5, y * 10 + 5, z * 10 + 10);
 			mesh.Rotation.Y = 180;
 			scene.Add(mesh);
+
+			float centerX = mesh.Position.X;
+			float centerY = mesh.Position.Y;
+			float centerZ = mesh.Position.Z;
+			walls.Add(new Wall(centerX - 5, centerY - 5, centerZ, centerX + 5, centerY + 5, centerZ, Orientation.NegZ));
+
 		}
 
-		public void BuildBox(float x, float y, float z, Material m = null, Orientation omit = Orientation.None) {
-			if(omit != Orientation.NegX)
-				BuildWallNegX(x, y, z, m);
-			if(omit != Orientation.NegY)
-				BuildWallNegY(x, y, z, m);
-			if(omit != Orientation.NegZ)
-				BuildWallNegZ(x, y, z, m);
-			if(omit != Orientation.PosX)
-				BuildWallPosX(x, y, z, m);
-			if(omit != Orientation.PosY)
-				BuildWallPosY(x, y, z, m);
-			if(omit != Orientation.PosZ)
-				BuildWallPosZ(x, y, z, m);
+		public void BuildXWalls(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildWallPosX(x, y, z, m);
+			BuildWallNegX(x, y, z, m);
 		}
-	
+		public void BuildYWalls(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildWallPosY(x, y, z, m);
+			BuildWallNegY(x, y, z, m);
+		}
+		public void BuildZWalls(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildWallPosZ(x, y, z, m);
+			BuildWallNegZ(x, y, z, m);
+		}
+		public void BuildXTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildYWalls(x, y, z, m);
+			BuildZWalls(x, y, z, m);
+		}
+		public void BuildYTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildXWalls(x, y, z, m);
+			BuildZWalls(x, y, z, m);
+		}
+		public void BuildZTunnle(float x, float y, float z, Material m = null) {
+			Material material = ( m == null ) ? nullPlaneMaterial : m;
+
+			BuildYWalls(x, y, z, m);
+			BuildXWalls(x, y, z, m);
+		}
+
+
+	}
+
+	public class Wall{
+		public float x1, y1, z1, x2, y2, z2;
+		public Orientation O;
+
+		public Wall(float x1, float y1, float z1, float x2, float y2, float z2, Orientation O) {
+			this.x1 = x1;
+			this.y1 = y1;
+			this.z1 = z1;
+			this.x2 = x2;
+			this.y2 = y2;
+			this.z2 = z2;
+
+			this.O = O;
+		}
 	}
 }
