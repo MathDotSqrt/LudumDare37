@@ -109,7 +109,7 @@ namespace MathDotSqrt.Sqrt3D {
 			//vel.Z = vel.Z > 0 ? vel.Z - drag : vel.Z + drag;
 
 			if(!canMovePosZ && vel.Z > 0) {
-				camera.Position.Z = ( ( (int)camera.Position.Z / 10 ) * 10 - maxBounds.Z -.1f);//( (int)camera.Position.Z / 10 ) * 10 + maxBounds.Z;
+				//camera.Position.Z = ( ( (int)camera.Position.Z / 10 ) * 10 - maxBounds.Z -.1f);//( (int)camera.Position.Z / 10 ) * 10 + maxBounds.Z;
 			}
 			//if(!canMoveNegZ && vel.Z < 0) {
 			//	camera.Position.Z = ( ( (int)camera.Position.Z / 10 ) * 10 + minBounds.Z + .1f );//( (int)camera.Position.Z / 10 ) * 10 + maxBounds.Z;
@@ -135,9 +135,9 @@ namespace MathDotSqrt.Sqrt3D {
 			if(Math.Abs(vel.Z) > maxVel.Z)
 				vel.Z = vel.Z > 0 ? maxVel.Z : -maxVel.Z;
 
-			if(( ( vel.X > 0 && canMovePosX ) || ( vel.X < 0 && canMoveNegX ) ))
+			if(( ( vel.X > 0 && canMovePosX ) || ( vel.X < 0 && canMoveNegX ) ) || godMode)
 				camera.Position.X += vel.X;
-			if(( ( vel.Z < 0 && canMoveNegZ ) || ( vel.Z > 0 && canMovePosZ ) ))
+			if(( ( vel.Z < 0 && canMoveNegZ ) || ( vel.Z > 0 && canMovePosZ ) ) || godMode)
 				camera.Position.Z += vel.Z;
 
 		}
@@ -272,15 +272,15 @@ namespace MathDotSqrt.Sqrt3D {
 						case Orientation.PosY:
 						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
 							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
-								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
-									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+								if(!PlanePos(new Vector3(1, 0, 0), wall.position.X + 5, min, max))
+									if(!PlanePos(new Vector3(-1, 0, 0), -wall.position.X +5, min, max))
 										canMoveNegY = false;
 						break;
 						case Orientation.NegY:
 						if(!PlanePos(new Vector3(0, 0, 1), 10 + wall.position.Z - 5, min, max))
 							if(!PlanePos(new Vector3(0, 0, -1), -wall.position.Z + 5, min, max))
-								if(!PlanePos(new Vector3(0, 1, 0), wall.position.Y + 5, min, max))
-									if(!PlanePos(new Vector3(0, -1, 0), -wall.position.Y + 5, min, max))
+								if(!PlanePos(new Vector3(1, 0, 0), wall.position.X + 5, min, max))
+									if(!PlanePos(new Vector3(-1, 0, 0), -wall.position.X + 5, min, max))
 										canMovePosY = false;
 						break;
 
