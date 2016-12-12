@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MathDotSqrt.Sqrt3D.Util.IO;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using MathDotSqrt.Sqrt3D.Util.IO;
 
 namespace MathDotSqrt.Sqrt3D.Util.Query {
 	class MySQL {
@@ -37,21 +37,7 @@ namespace MathDotSqrt.Sqrt3D.Util.Query {
 			try {
 				connection.Open();
 				return true;
-			} catch (MySqlException ex) {
-				//When handling errors, you can your application's response based 
-				//on the error number.
-				//The two most common error numbers when connecting are as follows:
-				//0: Cannot connect to server.
-				//1045: Invalid user name and/or password.
-				switch (ex.Number) {
-					case 0:
-					Output.Good("Cannot connect to server.");
-					break;
-
-					case 1045:
-					Output.Good("Invalid username/password, please try again");
-					break;
-				}
+			} catch (MySqlException) {
 				return false;
 			}
 		}
@@ -61,53 +47,46 @@ namespace MathDotSqrt.Sqrt3D.Util.Query {
 			try {
 				connection.Close();
 				return true;
-			} catch (MySqlException ex) {
-				Output.Good(ex.Message);
+			} catch (MySqlException) {
 				return false;
 			}
 		}
 
 		//Insert statement
-		public void Insert(int playCount, int playTime, int completed, DateTime dateCompleted) {
-			string query = "INSERT INTO data (data_playcount, data_playtime, data_completedgame) VALUES('1', '60', '0')";
+		public void Insert(int playCount, int playTime, DateTime starttime, DateTime closetime, int completedgame) {
+			string query = "INSERT INTO data (playcount, playtime, starttime, closetime, completedgame) VALUES(" + playCount.ToString() + ',' + playTime.ToString() + ','
+				+ starttime.ToString() + ',' + closetime.ToString() + ',' + completedgame.ToString() + ")";
 
 			//open connection
-			if (this.OpenConnection() == true) {
-				//create command and assign the query and connection from the constructor
+			if (this.OpenConnection()) {
 				MySqlCommand cmd = new MySqlCommand(query, connection);
 
-				//Execute command
 				cmd.ExecuteNonQuery();
 
-				//close connection
 				this.CloseConnection();
 			}
 		}
 
 		//Update statement
 		public void Update() {
-			string query = "UPDATE tableinfo SET name='Joe', age='22' WHERE name='John Smith'";
+			string query = "UPDATE tableinfo SET name='Joe', age='22' WHERE name='John Smith'"; //exam
 
-			//Open connection
-			if (this.OpenConnection() == true) {
-				//create mysql command
+			if (this.OpenConnection()) {
 				MySqlCommand cmd = new MySqlCommand();
-				//Assign the query using CommandText
+
 				cmd.CommandText = query;
-				//Assign the connection using Connection
+
 				cmd.Connection = connection;
 
-				//Execute query
 				cmd.ExecuteNonQuery();
 
-				//close connection
 				this.CloseConnection();
 			}
 		}
 
 		//Delete statement
 		public void Delete() {
-			string query = "DELETE FROM tableinfo WHERE name='John Smith'";
+			string query = "DELETE FROM tableinfo WHERE name='ex...'";
 
 			if (this.OpenConnection() == true) {
 				MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -120,33 +99,30 @@ namespace MathDotSqrt.Sqrt3D.Util.Query {
 		public List<string>[] Select() {
 			string query = "SELECT * FROM tableinfo";
 
-			//Create a list to store the result
-			List<string>[] list = new List<string>[3];
+			List<string>[] list = new List<string>[5];
 			list[0] = new List<string>();
 			list[1] = new List<string>();
 			list[2] = new List<string>();
+			list[3] = new List<string>();
+			list[4] = new List<string>();
 
-			//Open connection
-			if (this.OpenConnection() == true) {
-				//Create Command
+			if (this.OpenConnection()) {
 				MySqlCommand cmd = new MySqlCommand(query, connection);
-				//Create a data reader and Execute the command
 				MySqlDataReader dataReader = cmd.ExecuteReader();
 
-				//Read the data and store them in the list
 				while (dataReader.Read()) {
 					list[0].Add(dataReader["id"] + "");
-					list[1].Add(dataReader["name"] + "");
-					list[2].Add(dataReader["age"] + "");
+					list[1].Add(dataReader["playcount"] + "");
+					list[2].Add(dataReader["playtime"] + "");
+					list[3].Add(dataReader["starttime"] + "");
+					list[2].Add(dataReader["closetime"] + "");
+					list[2].Add(dataReader["completedgame"] + "");
 				}
 
-				//close Data Reader
 				dataReader.Close();
 
-				//close Connection
 				this.CloseConnection();
 
-				//return list to be displayed
 				return list;
 			} else {
 				return list;
@@ -158,15 +134,11 @@ namespace MathDotSqrt.Sqrt3D.Util.Query {
 			string query = "SELECT Count(*) FROM tableinfo";
 			int Count = -1;
 
-			//Open Connection
-			if (this.OpenConnection() == true) {
-				//Create Mysql Command
+			if (this.OpenConnection()) {
 				MySqlCommand cmd = new MySqlCommand(query, connection);
 
-				//ExecuteScalar will return one value
 				Count = int.Parse(cmd.ExecuteScalar() + "");
 
-				//close Connection
 				this.CloseConnection();
 
 				return Count;

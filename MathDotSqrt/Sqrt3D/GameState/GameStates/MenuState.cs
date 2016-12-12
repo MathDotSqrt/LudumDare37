@@ -96,7 +96,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 		private int state = 0;
 
 		public override void Update(float delta) {
-			String[] stateElement = { "play", "options", "exit" };
+			string[] stateElement = { "play", "options", "exit" };
 			if (Input.IsDownTyped || Input.IsUpTyped) {
 				GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElement[state]).Material;
 				button.Color = Color.Grey;
@@ -123,7 +123,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 					gsm.EnterGameState(GameStateManager.PLAY_STATE);
 					break;
 					case "options":
-					//gsm.EnterGameState(GameStateManager.OPTION_STATE);
+					gsm.EnterGameState(GameStateManager.OPTION_STATE);
 					break;
 					default:
 					Environment.Exit(0);

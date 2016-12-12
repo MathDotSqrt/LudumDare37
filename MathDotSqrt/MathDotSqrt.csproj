@@ -49,7 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\mysql-connector-net-6.9.9-noinstall\v4.5\MySql.Data.dll</HintPath>
+      <HintPath>F:\Downloads\mysql-connector-net-6.1.6-noinstall\mysql.data.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,6 +76,7 @@
     <Compile Include="Sqrt3D\GameState\GameState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStateManager.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\MenuState.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\OptionState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\PlayState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\TestState.cs" />
     <Compile Include="Sqrt3D\Level.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Sqrt3D\Util\Math\RandomHelper.cs" />
     <Compile Include="Sqrt3D\Util\Math\SexyMathHelper.cs" />
     <Compile Include="Sqrt3D\Util\Math\TangentPoint.cs" />
+    <Compile Include="Sqrt3D\Util\Query\MySQL.cs" />
     <Compile Include="Sqrt3D\World\Objects\Cameras\PerspectiveCamera.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\AmbientLight.cs" />
     <Compile Include="Sqrt3D\World\Objects\Lights\LightType.cs" />
@@ -219,7 +221,6 @@
   <ItemGroup>
     <Folder Include="Sqrt3D\NewFolder1\" />
     <Folder Include="Sqrt3D\PhysicsEngine\" />
-    <Folder Include="Sqrt3D\Util\Query\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\bugs.txt" />

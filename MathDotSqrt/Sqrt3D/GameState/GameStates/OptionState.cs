@@ -19,20 +19,20 @@ using MathDotSqrt.Sqrt3D.Util.Math;
 using MathDotSqrt.Sqrt3D.Util.IO;
 using MathDotSqrt.Sqrt3D.Util.Query;
 
-namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
-	public class OptionState : GameState{
+namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
+	public class OptionState : GameState {
 		private Scene scene;
 		private GuiField gui;
 
-		public OptionState(GameStateManager gsm) : base(gsm){
+		public OptionState(GameStateManager gsm) : base(gsm) {
 
 		}
 
-		public override void Dispose(){
-			
+		public override void Dispose() {
+
 		}
 
-		public override void Init(){
+		public override void Init() {
 			scene = new Scene();
 			Camera camera = new PerspectiveCamera(70, Window.ASPECT_RATIO, .01f, 1000);
 			scene.Add(camera);
@@ -56,20 +56,19 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 				Color = Color.Blue
 			};
 
-			Material sensitivityLowBoxMaterial = new GuiBasicMaterial(){
+			Material sensitivityLowBoxMaterial = new GuiBasicMaterial() {
 				Color = Color.Grey
 			};
 
-			Material sensitivityMediumBoxMaterial = new GuiBasicMaterial(){
+			Material sensitivityMediumBoxMaterial = new GuiBasicMaterial() {
 				Color = Color.Red
 			};
 
-			Material sensitivityHighBoxMaterial = new GuiBasicMaterial(){
+			Material sensitivityHighBoxMaterial = new GuiBasicMaterial() {
 				Color = Color.Grey
 			};
 
-			Material backBoxMaterial = new GuiBasicMaterial()
-			{
+			Material backBoxMaterial = new GuiBasicMaterial() {
 				Color = Color.Grey
 			};
 
@@ -82,7 +81,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			sensitivityBoxParent.CenterY();
 			gui.Add(sensitivityBoxParent);
 
-			GuiElement sensitivityLowBox = new GuiElement(sensitivityBoxParent, quad, sensitivityLowBoxMaterial){
+			GuiElement sensitivityLowBox = new GuiElement(sensitivityBoxParent, quad, sensitivityLowBoxMaterial) {
 				Name = "low"
 			};
 			sensitivityLowBox.PixelWidth = 120;
@@ -98,7 +97,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			sensitivityMediumBox.PixelMarginRight = sensitivityHighGeometry.BoundingWidth + 300;
 			gui.Add(sensitivityMediumBox);
 
-			GuiElement sensitivityHighBox = new GuiElement(sensitivityBoxParent, quad, sensitivityHighBoxMaterial){
+			GuiElement sensitivityHighBox = new GuiElement(sensitivityBoxParent, quad, sensitivityHighBoxMaterial) {
 				Name = "high"
 			};
 			sensitivityHighBox.PixelWidth = 120;
@@ -106,8 +105,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			sensitivityHighBox.PixelMarginRight = 100;
 			gui.Add(sensitivityHighBox);
 
-			GuiElement backBox = new GuiElement(quad, backBoxMaterial)
-			{
+			GuiElement backBox = new GuiElement(quad, backBoxMaterial) {
 				Name = "back"
 			};
 			backBox.PixelWidth = 600;
@@ -136,20 +134,20 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			gui.Add(sensitivityHighTitle);
 		}
 
-		public override void PlayAudio(OpenALPlayer player){
-			
+		public override void PlayAudio(OpenALPlayer player) {
+
 		}
 
-		public override void Render(OpenGLRenderer renderer){
+		public override void Render(OpenGLRenderer renderer) {
 			renderer.RenderScene(scene);
 			renderer.RenderGui(gui);
 		}
 
 		private int horizontalState = 1;
 		private int verticalState = 0;
-		public override void Update(float delta){
-			String[] stateElementVertical = { "sensitivity", "back" };
-			String[] stateElementHorizontal = { "low", "medium", "high" };
+		public override void Update(float delta) {
+			string[] stateElementVertical = { "sensitivity", "back" };
+			string[] stateElementHorizontal = { "low", "medium", "high" };
 
 			if (Keyboard.GetState().IsKeyDown(Key.Escape))
 				Environment.Exit(0);
@@ -157,21 +155,21 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			////////////////////////////////////////////////////////////
 			//Horzintal/////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////
-			if (Input.IsLeftTyped || Input.IsRightTyped){
+			if (Input.IsLeftTyped || Input.IsRightTyped) {
 				GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
 				button.Color = Color.Grey;
 			}
 
-			if (Input.IsLeftTyped){
+			if (Input.IsLeftTyped) {
 				if (horizontalState != 0)
 					horizontalState--;
 			}
-			if (Input.IsRightTyped){
+			if (Input.IsRightTyped) {
 				if (horizontalState != stateElementHorizontal.Length - 1)
 					horizontalState++;
 			}
 
-			if (Input.IsLeftTyped || Input.IsRightTyped){
+			if (Input.IsLeftTyped || Input.IsRightTyped) {
 				GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
 				button.Color = Color.Red;
 			}
@@ -180,45 +178,51 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates{
 			//Vertical//////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////
 
-			if (Input.IsUpTyped || Input.IsDownTyped){
-				switch (stateElementVertical[verticalState]){
+			if (Input.IsUpTyped || Input.IsDownTyped) {
+				switch (stateElementVertical[verticalState]) {
 					case "sensitivity":
-						GuiBasicMaterial sensbutton = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
-						sensbutton.Color = Color.Red; break;
+					GuiBasicMaterial sensbutton = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
+					sensbutton.Color = Color.Red;
+					break;
 					default:
-						GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementVertical[verticalState]).Material;
-						button.Color = Color.Grey; break;
+					GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementVertical[verticalState]).Material;
+					button.Color = Color.Grey;
+					break;
 				}
 			}
 
-			if (Input.IsUpTyped){
+			if (Input.IsUpTyped) {
 				if (verticalState != 0)
 					verticalState--;
 			}
-			if (Input.IsDownTyped){
+			if (Input.IsDownTyped) {
 				if (verticalState != stateElementVertical.Length - 1)
 					verticalState++;
 			}
-			 
-			if (Input.IsUpTyped || Input.IsDownTyped){
-				switch (stateElementVertical[verticalState]){
+
+			if (Input.IsUpTyped || Input.IsDownTyped) {
+				switch (stateElementVertical[verticalState]) {
 					case "sensitivity":
-						GuiBasicMaterial sensbutton = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
-						sensbutton.Color = Color.Red; break;
+					GuiBasicMaterial sensbutton = (GuiBasicMaterial)gui.GetElement(stateElementHorizontal[horizontalState]).Material;
+					sensbutton.Color = Color.Red;
+					break;
 					default:
-						GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementVertical[verticalState]).Material;
-						button.Color = Color.Red; break;
+					GuiBasicMaterial button = (GuiBasicMaterial)gui.GetElement(stateElementVertical[verticalState]).Material;
+					button.Color = Color.Red;
+					break;
 				}
 			}
 
 			if (Keyboard.GetState().IsKeyDown(Key.Enter))
-				switch (stateElementVertical[verticalState]){
-					case "back": gsm.EnterGameState(GameStateManager.MENU_STATE); break; //call sesivitiy method and send stateElementHorizontal[horizontalState]
+				switch (stateElementVertical[verticalState]) {
+					case "back":
+					gsm.EnterGameState(GameStateManager.MENU_STATE);
+					break; //call sesivitiy method and send stateElementHorizontal[horizontalState]
 				}
 
 		}
 
-		public override void UpdateResize(){
+		public override void UpdateResize() {
 			gui.UpdateScreenSize();
 		}
 	}
