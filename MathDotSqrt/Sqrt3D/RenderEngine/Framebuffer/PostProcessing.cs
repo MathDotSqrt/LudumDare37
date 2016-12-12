@@ -48,7 +48,9 @@ namespace MathDotSqrt.Sqrt3D.RenderEngine.Framebuffer {
 
 			//brightnessFilter.Render(fbo.ColorTexture);
 			//radBlur.Render(brightnessFilter.fbo.ColorTexture, scene.GetSortedLights()[LightType.RadialLight][0], scene.Camera);
-			//bloom.Render(fbo.ColorTexture, radBlur.fbo.ColorTexture, false);
+			//vBlur.Render(brightnessFilter.fbo.ColorTexture);
+			//hBlur.Render(vBlur.fbo.ColorTexture);
+			//bloom.Render(hBlur.fbo.ColorTexture, fbo.ColorTexture, false);
 			noEffect.Render(fbo.ColorTexture, false);
 
 
