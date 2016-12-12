@@ -61,8 +61,8 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			level.Update();
 
 			if (Input.IsMTyped) {
-				//gsm.EnterGameState(GameStateManager.MENU_STATE);
-				level.ChangeLevel(level.currentLevel+1);
+				gsm.EnterGameState(GameStateManager.MENU_STATE);
+				//level.ChangeLevel(level.currentLevel+1);
 			}
 
 			

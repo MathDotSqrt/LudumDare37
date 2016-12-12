@@ -108,7 +108,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			}
 
 			if (Input.IsDownTyped) {
-				if (state != stateElement.Length - 1)
+				if (state != 2)
 					state++;
 			}
 
@@ -117,17 +117,13 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 				button.Color = Color.Red;
 			}
 
-			if (Keyboard.GetState().IsKeyDown(Key.Enter))
+			if (Input.IsEnterTyped)
 				switch (stateElement[state]) {
 					case "play":
-					gsm.EnterGameState(GameStateManager.PLAY_STATE);
-					break;
+					gsm.EnterGameState(GameStateManager.PLAY_STATE); break;
 					case "options":
-					gsm.EnterGameState(GameStateManager.OPTION_STATE);
-					break;
-					default:
-					Environment.Exit(0);
-					break;
+					gsm.EnterGameState(GameStateManager.OPTION_STATE); break;
+					default: Environment.Exit(0); break;
 				}
 		}
 

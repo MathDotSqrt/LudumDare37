@@ -72,7 +72,7 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 			IsCTyped = false;
 			IsRShift = false;
 
-			if( TestType(Key.Down) )
+			if( TestType(Key.Up) )
 				IsUpTyped = true;
 			if( TestType(Key.Down) )
 				IsDownTyped = true;

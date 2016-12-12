@@ -149,8 +149,8 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			string[] stateElementVertical = { "sensitivity", "back" };
 			string[] stateElementHorizontal = { "low", "medium", "high" };
 
-			if (Keyboard.GetState().IsKeyDown(Key.Escape))
-				Environment.Exit(0);
+			if (Keyboard.GetState().IsKeyDown(Key.BackSpace))
+				gsm.EnterGameState(GameStateManager.CREDIT_STATE);
 
 			////////////////////////////////////////////////////////////
 			//Horzintal/////////////////////////////////////////////////
@@ -213,7 +213,7 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 				}
 			}
 
-			if (Keyboard.GetState().IsKeyDown(Key.Enter))
+			if (Input.IsEnterTyped)
 				switch (stateElementVertical[verticalState]) {
 					case "back":
 					gsm.EnterGameState(GameStateManager.MENU_STATE);

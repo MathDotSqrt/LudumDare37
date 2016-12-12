@@ -75,6 +75,7 @@
     <Compile Include="Sqrt3D\GameComponent.cs" />
     <Compile Include="Sqrt3D\GameState\GameState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStateManager.cs" />
+    <Compile Include="Sqrt3D\GameState\GameStates\CreditState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\MenuState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\OptionState.cs" />
     <Compile Include="Sqrt3D\GameState\GameStates\PlayState.cs" />
