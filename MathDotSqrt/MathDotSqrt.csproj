@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\mysql-connector-net-6.9.9-noinstall\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\C# Dev\NAudio-Release\NAudio.dll</HintPath>
@@ -123,6 +126,7 @@
     <Compile Include="Sqrt3D\RenderEngine\Shader\SkyboxShader.cs" />
     <Compile Include="Sqrt3D\RenderEngine\Shader\SpecularShader.cs" />
     <Compile Include="Sqrt3D\Util\ArrayConverter.cs" />
+    <Compile Include="Sqrt3D\Util\IO\FileWriter.cs" />
     <Compile Include="Sqrt3D\Util\IO\Input.cs" />
     <Compile Include="Sqrt3D\Util\IO\FilePaths.cs" />
     <Compile Include="Sqrt3D\Util\IO\Loader\AudioLoader.cs" />
@@ -259,6 +263,9 @@
     <Content Include="res\maps\texture_maps\earth_night.jpg" />
     <Content Include="res\maps\texture_maps\floor1.png" />
     <Content Include="res\maps\texture_maps\floor_normal.png" />
+    <Content Include="res\maps\texture_maps\leather.png" />
+    <Content Include="res\maps\texture_maps\leather_brown.png" />
+    <Content Include="res\maps\texture_maps\leather_normal.png" />
     <Content Include="res\maps\texture_maps\metal.jpg" />
     <Content Include="res\maps\texture_maps\moon.jpg" />
     <Content Include="res\maps\texture_maps\rock.png" />
@@ -268,8 +275,10 @@
     <Content Include="res\maps\texture_maps\sun2.jpg" />
     <Content Include="res\maps\texture_maps\test_image.png" />
     <Content Include="res\maps\texture_maps\tim.jpg" />
-    <Content Include="res\maps\texture_maps\wall1.png" />
+    <Content Include="res\maps\texture_maps\wall2.png" />
     <Content Include="res\maps\texture_maps\wall1_normal.png" />
+    <Content Include="res\maps\texture_maps\wall2_normal.png" />
+    <Content Include="res\node.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

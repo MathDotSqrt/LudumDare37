@@ -24,6 +24,11 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 			get;
 			private set;
 		}
+		public static bool IsEnterTyped { get; private set; }
+		public static bool IsDelTyped { get; private set; }
+		public static bool IsGTyped { get; private set; }
+		public static bool IsCTyped { get; private set; }
+		public static bool IsRShift { get; private set; }
 
 		public static bool FullScreenToggle = false;
 
@@ -35,6 +40,10 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 		public static bool IsDownTyped = false;
 		public static bool IsLeftTyped = false;
 		public static bool IsRightTyped = false;
+		public static bool isAltTyped = false;
+		public static bool isRControlTyped = false;
+
+		public static bool isTTyped = false;
 
 		public static bool IsMTyped = false;
 
@@ -54,32 +63,67 @@ namespace MathDotSqrt.Sqrt3D.Util.IO{
 			IsLeftTyped = false;
 			IsRightTyped = false;
 			IsMTyped = false;
-			if(currentState.IsKeyDown(Key.Up) && lastFrameState.IsKeyDown(Key.Up))
+			isAltTyped = false;
+			isRControlTyped = false;
+			IsEnterTyped = false;
+			IsDelTyped = false;
+			isTTyped = false;
+			IsGTyped = false;
+			IsCTyped = false;
+			IsRShift = false;
+
+			if( TestType(Key.Down) )
 				IsUpTyped = true;
-			if(currentState.IsKeyDown(Key.Down) && lastFrameState.IsKeyDown(Key.Down))
+			if( TestType(Key.Down) )
 				IsDownTyped = true;
-			if(currentState.IsKeyDown(Key.Left) && lastFrameState.IsKeyDown(Key.Left))
+			if(TestType(Key.Left))
 				IsLeftTyped = true;
-			if(currentState.IsKeyDown(Key.Right) && lastFrameState.IsKeyDown(Key.Right))
+			if(TestType(Key.Right))
 				IsRightTyped = true;
-			if(currentState.IsKeyDown(Key.M) && lastFrameState.IsKeyUp(Key.M))
+			if(TestType(Key.M))
 				IsMTyped = true;
+			if(TestType(Key.AltRight))
+				isAltTyped = true;
+			if(TestType(Key.RControl))
+				isRControlTyped = true;
+			if(TestType(Key.T))
+				isTTyped = true;
+			if(TestType(Key.Enter))
+				IsEnterTyped = true;
+			if(TestType(Key.Delete))
+				IsDelTyped = true;
+			if(TestType(Key.G))
+				IsGTyped = true;
+			if(TestType(Key.C))
+				IsCTyped = true;
+			if(TestType(Key.ShiftRight))
+				IsRShift = true;
+
 		}
+
+		private static bool TestType(Key k) {
+			return currentState.IsKeyDown(k) && lastFrameState.IsKeyUp(k);
+		}
+
 		public static void UpdatePlayer(Player player) {
 			KeyboardState k = Keyboard.GetState();
 
-			if(currentState.IsKeyDown(Key.W) | currentState.IsKeyDown(Key.Up))
-				player.MoveForward(.4f);
-			if(currentState.IsKeyDown(Key.S) | currentState.IsKeyDown(Key.Down))
-				player.MoveForward(-.4f);
-			if(currentState.IsKeyDown(Key.D) | currentState.IsKeyDown(Key.Right))
-				player.MoveLeft(.4f);
-			if(currentState.IsKeyDown(Key.A) | currentState.IsKeyDown(Key.Left))
-				player.MoveLeft(-.4f);
+			if(currentState.IsKeyDown(Key.W)) {
+				player.MoveForward(.6f);
+			}
+			if(currentState.IsKeyDown(Key.S)) {
+				player.MoveForward(-.6f);
+			}
+			if(currentState.IsKeyDown(Key.D)) {
+				player.MoveLeft(.6f);
+			}
+			if(currentState.IsKeyDown(Key.A)) {
+				player.MoveLeft(-.6f);
+			}
 			if(currentState.IsKeyDown(Key.Space) && lastFrameState.IsKeyUp(Key.Space))
 				player.Jump();
 			if(currentState.IsKeyDown(Key.ShiftLeft))
-				player.MoveUp(-.4f);
+				player.MoveUp(-.6f);
 			if(currentState.IsKeyDown(Key.Escape))
 				Environment.Exit(0);
 

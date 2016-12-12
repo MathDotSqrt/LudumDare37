@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MathDotSqrt.Sqrt3D {
+	[Flags]
 	public enum Orientation {
 		None = -1,
 		PosX = 0,

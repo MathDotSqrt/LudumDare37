@@ -11,7 +11,7 @@ namespace MathDotSqrt {
 	public class Program {
 		
 		public static void Main(string[] args) {
-			GameComponent component = new GameComponent(1920, 1080);
+			GameComponent component = new GameComponent(1000, 800);
 			Process.GetCurrentProcess().ProcessorAffinity = new IntPtr(1);
 			component.Run(); 
 		}

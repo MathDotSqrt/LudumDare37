@@ -46,12 +46,9 @@ namespace MathDotSqrt.Sqrt3D.GameState.GameStates {
 			scene.Add(player.camera);
 			scene.Add(point);
 
-			Geometry cubeGeometry = OBJLoader.LoadOBJ("cube");
-			Material material = new MeshBasicMaterial() {
-				Color = Color.Yellow
-			};
-			Mesh mesh = new Mesh(cubeGeometry, material);
-			scene.Add(mesh);
+			Light ambient = new AmbientLight(Color.White, .5f);
+			scene.Add(ambient);
+
 			gui = new GuiField();
 
 		}

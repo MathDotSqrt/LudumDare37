@@ -18,8 +18,10 @@ namespace MathDotSqrt.Sqrt3D {
 		public Vector3 ChunkPosition;
 
 		public Vector3 vel;
+		public Vector3 maxVel = new Vector3(.6f, 3, .6f);
 		public float gravity = -.05f;
-		public float drag = .01f;
+		public float drag = .7f;
+		public float airDrag = .99f;
 		public float moveSpeed = .05f;
 
 		public bool canMovePosX;
@@ -35,6 +37,11 @@ namespace MathDotSqrt.Sqrt3D {
 		public float radNegY = 20;
 		public float radPosY = 1;
 
+		public bool godMode = false;
+		public Orientation o;
+
+
+
 		public Vector3 minBounds = new Vector3(-1.5f, -7, -1.5f);
 		public Vector3 maxBounds = new Vector3(1.5f, 2, 1.5f);
 
@@ -49,8 +56,178 @@ namespace MathDotSqrt.Sqrt3D {
 
 		}
 
-		public void TestCollision(List<Wall> walls) {
+		public void Update() {
+			Chunk.X = (float)Math.Floor((double)camera.Position.X / 10.0);
+			Chunk.Y = (float)Math.Floor((double)camera.Position.Y / 10.0);
+			Chunk.Z = (float)Math.Floor((double)camera.Position.Z / 10.0);
+			ChunkPosition.X = camera.Position.X - Chunk.X * 10;
+			ChunkPosition.Y = camera.Position.Y - Chunk.Y * 10;
+			ChunkPosition.Z = camera.Position.Z - Chunk.Z * 10;
+
+			float rotY;
+			if(camera.Rotation.Y > 0) {
+				rotY = camera.Rotation.Y % 360;
+			}
+			else {
+				rotY = 360 - Math.Abs(camera.Rotation.Y) % 360;
+			}
+
+			if(rotY > 180 - 35 && rotY < 180 + 35)
+				o = Orientation.PosZ;
+			else if(rotY < 35 || rotY > 360 - 35)
+				o = Orientation.NegZ;
+			else if(rotY > 90 - 35 && rotY < 90 + 35)
+				o = Orientation.PosX;
+			else if(rotY > 270 - 35 && rotY < 270 + 35)
+				o = Orientation.NegX;
+
+			if(Input.IsGTyped)
+				godMode = !godMode;
+
+			if(!godMode) {
+				vel.Y += gravity;
+				if(( vel.Y < 0 && !canMoveNegY ) || ( vel.Y > 0 && !canMovePosY ))
+					vel.Y = 0;
+				camera.Position.Y += vel.Y;
+
+				if(canMoveNegY) {
+					//if(( ( vel.X > 0 && canMovePosX ) || ( vel.X < 0 && canMoveNegX ) ))
+					//	camera.Position.X += vel.X;
+					//if(( ( vel.Z < 0 && canMoveNegZ ) || ( vel.Z > 0 && canMovePosZ ) ))
+					//	camera.Position.Z += vel.Z;
+
+					//vel.Xz *= .999f;
+				}
+			}
+			else {
+				if(Keyboard.GetState().IsKeyDown(Key.Space)) {
+					camera.Position.Y += .6f;
+				}
+			}
+
+			//vel.X = vel.X > 0 ? vel.Z -drag : vel.Z + drag;
+			//vel.Z = vel.Z > 0 ? vel.Z - drag : vel.Z + drag;
+
+			if(!canMovePosZ && vel.Z > 0) {
+				camera.Position.Z = ( ( (int)camera.Position.Z / 10 ) * 10 - maxBounds.Z -.1f);//( (int)camera.Position.Z / 10 ) * 10 + maxBounds.Z;
+			}
+			//if(!canMoveNegZ && vel.Z < 0) {
+			//	camera.Position.Z = ( ( (int)camera.Position.Z / 10 ) * 10 + minBounds.Z + .1f );//( (int)camera.Position.Z / 10 ) * 10 + maxBounds.Z;
+			//}
+			if(!canMoveNegY)
+				vel.Xz = new Vector2(0);
+
+		}
+
+		public void Jump() {
+			if(!canMoveNegY && !godMode)
+				vel.Y = 1.3f;
+		}
+
+		public void MoveForward(float speed) {
+			float rad = SexyMathHelper.ToRad(camera.Rotation.Y);
 			
+			vel.X = speed * (float)Math.Sin(rad);
+			vel.Z = speed * -(float)Math.Cos(rad);
+
+			if(Math.Abs(vel.X) > maxVel.X)
+				vel.X = vel.X > 0 ? maxVel.X : -maxVel.X;
+			if(Math.Abs(vel.Z) > maxVel.Z)
+				vel.Z = vel.Z > 0 ? maxVel.Z : -maxVel.Z;
+
+			if(( ( vel.X > 0 && canMovePosX ) || ( vel.X < 0 && canMoveNegX ) ))
+				camera.Position.X += vel.X;
+			if(( ( vel.Z < 0 && canMoveNegZ ) || ( vel.Z > 0 && canMovePosZ ) ))
+				camera.Position.Z += vel.Z;
+
+		}
+		public void MoveLeft(float speed) {
+			float rad = SexyMathHelper.ToRad(camera.Rotation.Y) + (float)Math.PI / 2;
+
+			
+			vel.X = speed * (float)Math.Sin(rad);
+			vel.Z = speed * -(float)Math.Cos(rad);
+
+			if(Math.Abs(vel.X) > maxVel.X)
+				vel.X = vel.X > 0 ? maxVel.X : -maxVel.Z;
+			if(Math.Abs(vel.Z) > maxVel.Z)
+				vel.Z = vel.Z > 0 ? maxVel.Z : -maxVel.Z;
+
+			if(( ( vel.X > 0 && canMovePosX ) || ( vel.X < 0 && canMoveNegX ) ))
+				camera.Position.X += vel.X;
+			if(( ( vel.Z < 0 && canMoveNegZ ) || ( vel.Z > 0 && canMovePosZ ) ))
+				camera.Position.Z += vel.Z;
+		}
+		public void MoveUp(float vel) {
+			if((vel > 0 && canMovePosY) || (vel < 0 && canMoveNegY))
+				camera.Position.Y += vel;
+		
+
+		}
+
+		public void Teleport(Node node) {
+
+			int end = 0;
+
+			switch(node.LookOrientation) {
+				case Orientation.PosX:
+				end = 1;
+				break;
+				case Orientation.NegX:
+				end = 3;
+				break;
+				case Orientation.PosZ:
+				end = 2;
+				break;
+				case Orientation.NegZ:
+				end = 0;
+				break;
+			}
+
+			int start = 0;
+			switch(node.RotatePlayer) {
+				case Orientation.PosX:
+				start = 1;
+				break;
+				case Orientation.NegX:
+				start = 3;
+				break;
+				case Orientation.PosZ:
+				start = 2;
+				break;
+				case Orientation.NegZ:
+				start = 0;
+				//if(start == 3)
+				//	start = 2;
+
+				break;
+			}
+
+			int diff = start - end;
+
+			Vector2 offSetVec;
+			offSetVec.X = -( ChunkPosition.X - 5 );
+			offSetVec.Y = -( ChunkPosition.Z - 5 );
+			double rad = (double)Math.Atan2(offSetVec.Y, offSetVec.X);
+			double length = offSetVec.Length;
+
+			rad += (double)(Math.PI / 2) * diff;
+			Output.Warning(rad);
+			Output.Warning(length);
+
+
+			ChunkPosition.X = (float)-length * (float)Math.Cos(rad) + 5;
+			ChunkPosition.Z = (float)-length * (float)Math.Sin(rad) + 5;
+
+			Output.Warning(ChunkPosition.Xz);
+
+			camera.Rotation.Y += 90 * diff;
+
+
+			camera.Position = node.ChunkTeleport * 10 + ChunkPosition;
+		}
+		public void TestCollision(List<Wall> walls) {
+
 
 			Vector3 min = minBounds + camera.Position;
 			Vector3 max = maxBounds + camera.Position;
@@ -110,7 +287,7 @@ namespace MathDotSqrt.Sqrt3D {
 					}
 				}
 			}
-			
+
 		}
 
 		public bool PlaneCollision(Vector3 normal, float offset, Vector3 min, Vector3 max) {
@@ -187,93 +364,16 @@ namespace MathDotSqrt.Sqrt3D {
 
 			bool pos = false;
 			bool neg = false;
-			float posSide = ( normal.X * vec1.X ) + ( normal.Y * vec1.Y ) + ( normal.Z * vec1.Z ) -(offset);
+			float posSide = ( normal.X * vec1.X ) + ( normal.Y * vec1.Y ) + ( normal.Z * vec1.Z ) - ( offset );
 			if(posSide > 0) {
 				pos = true;
 			}
-			float negSide = ( normal.X * vec2.X ) + ( normal.Y * vec2.Y ) + ( normal.Z * vec2.Z ) - (offset);
+			float negSide = ( normal.X * vec2.X ) + ( normal.Y * vec2.Y ) + ( normal.Z * vec2.Z ) - ( offset );
 			if(negSide < 0) {
 				neg = true;
 			}
 
 			return pos && !neg;
-		}
-
-		public void Update() {
-			Chunk.X = (float)Math.Floor((double)camera.Position.X / 10.0);
-			Chunk.Y = (float)Math.Floor((double)camera.Position.Y / 10.0);
-			Chunk.Z = (float)Math.Floor((double)camera.Position.Z / 10.0);
-			ChunkPosition.X = camera.Position.X - Chunk.X * 10;
-			ChunkPosition.Y = camera.Position.Y - Chunk.Y * 10;
-			ChunkPosition.Z = camera.Position.Z - Chunk.Z * 10;
-
-			vel.Y += gravity;
-			if((vel.Y < 0 && !canMoveNegY) || (vel.Y > 0 && !canMovePosY))
-				vel.Y = 0;
-
-			//camera.Position.Y += vel.Y;
-		}
-
-		
-
-		public void Jump() {
-			vel.Y = 1.3f;
-		}
-
-		public void Teleport(Node node) {
-			//Output.Good("looking");
-			//camera.Position = node.ChunkTeleport * 10;
-			//camera.Position.X += ChunkPosition.Y;
-			//camera.Position.Y += ChunkPosition.X;
-			//camera.Position.Z += ChunkPosition.Z;
-			float rot = Math.Abs(camera.Rotation.Y % 90);
-
-			switch(node.RotatePlayer) {
-				case Orientation.PosX:
-				//camera.Rotation.Y = rot;
-				break;
-				case Orientation.NegX:
-				//camera.Rotation.Y = rot + 180;
-				break;
-				case Orientation.PosZ:
-				//camera.Rotation.Y = rot + 270;
-				break;
-				case Orientation.NegZ:
-				if(rot > 45)
-					rot = 90 - rot;
-					camera.Rotation.Y = rot + 180;
-				break;
-			}
-		}
-
-		public void MoveForward(float vel) {
-			float rad = SexyMathHelper.ToRad(camera.Rotation.Y);
-			Vector2 vec = new Vector2();
-
-			vec.X += vel * (float)Math.Sin(rad);
-			vec.Y += vel * -(float)Math.Cos(rad);
-
-			if((vec.X > 0 && canMovePosX) || ( vec.X < 0 && canMoveNegX))
-				camera.Position.X += vec.X;
-			if((vec.Y < 0 && canMoveNegZ) || (vec.Y > 0 && canMovePosZ))
-				camera.Position.Z += vec.Y;
-		}
-		public void MoveLeft(float vel) {
-			float rad = SexyMathHelper.ToRad(camera.Rotation.Y) + (float)Math.PI / 2;
-			Vector2 vec = new Vector2();
-
-			vec.X += vel * (float)Math.Sin(rad);
-			vec.Y += vel * -(float)Math.Cos(rad);
-			if(( vec.X > 0 && canMovePosX ) || ( vec.X < 0 && canMoveNegX ))
-				camera.Position.X += vec.X;
-			if(( vec.Y < 0 && canMoveNegZ ) || ( vec.Y > 0 && canMovePosZ ))
-				camera.Position.Z += vec.Y;
-		}
-
-		public void MoveUp(float vel) {
-			if((vel > 0 && canMovePosY) || (vel < 0 && canMoveNegY))
-				camera.Position.Y += vel;
-		
 		}
 	}
 }
